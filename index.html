@@ -1,0 +1,313 @@
+<html><head><title>Eliot Glairon - Software Engineer</title>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/foundation/6.2.0/foundation.min.js"></script>
+<link href="https://cdn.jsdelivr.net/foundation/6.2.0/foundation.min.css" rel="stylesheet" />
+<link href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/46336/foundation-icons.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Indie+Flower|Ubuntu" rel="stylesheet" />
+<script>
+$(document).ready(function(){
+  $(document).foundation();
+
+});
+</script>
+<style>/*possible color scheme: https://coolors.co/93a8ac-44344f-564d80-ffffff-e2b4bd*/
+body {
+  background-image: linear-gradient(
+      rgba(147, 168, 172, 0.35), 
+      rgba(147, 168, 172, 0.35)
+    ),  url("https://dl.dropboxusercontent.com/u/28910941/sayagata-400px.png");
+}
+.sticky-container {
+  height: 59px;
+}
+.sticky {
+    width: 100%;
+  margin-top: 0em; top: 0px; bottom: auto; left: 0px;
+}
+.website-topbar, #websitemenu {
+  background: #44344F;
+  
+  color: #ffffff;
+}
+.website-topbar a:link {
+  color: #e2b4bd;
+}
+/*on hover effects*/
+.website-topbar a:hover {
+  background: #93A8AC;
+  color: #e2b4bd;
+}
+.top-bar-left {
+  background: #44344F;
+}
+.top-bar-title {
+  text-align: center !important;
+}
+.menu {
+  background: #44344F;
+}
+.website-topbar {
+  
+  
+}
+.sticky{
+    
+    
+    /*create margin from top bar*/
+}
+.content {
+  /*create margin from top bar*/
+  font-family: 'Ubuntu', sans-serif;
+  
+}
+
+/* center tabs on foundation - thanks http://stackoverflow.com/questions/24548990/align-foundation-5-tabs-in-the-middle-of-the-screen*/
+ul.tabs {
+  
+  text-align: center;
+  background-image: linear-gradient(
+      rgba(68, 52, 79, 0.35), 
+      rgba(68, 52, 79, 0.35)
+    ),  url("https://dl.dropboxusercontent.com/u/28910941/sayagata-400px.png");
+}
+
+ul.tabs li {
+  float: none !important;
+  display: inline-block;
+}
+.tabs-content {
+  background-image: linear-gradient(
+      rgba(147, 168, 172, 0.35), 
+      rgba(147, 168, 172, 0.35)
+    ),  url("https://dl.dropboxusercontent.com/u/28910941/sayagata-400px.png");
+}
+.underline {
+  border-bottom: 5px solid #e2b4bd;
+}
+.big-title {
+  /*overrides content if needed*/
+  font-family: 'Indie Flower', sans-serif;
+  text-align: center;
+  clip: rect(auto, auto, auto, auto);
+  color: #44344F;
+  /*thanks to  http://stackoverflow.com/questions/12557707/changing-underline-color*/
+  
+  /*text-decoration: underline;
+  -webkit-text-decoration-color: #e2b4bd;
+  -moz-text-decoration-color: #e2b4bd;  
+  text-decoration-color: #e2b4bd;*/
+}
+.thumbnail-text {
+  width: 150px;
+  height: 150px;
+  font-size:60px;
+}
+
+.social_media_icons {
+  font-size:58px;
+  text-align:center;
+}
+.no-js {
+  display:none;
+}
+</style>
+  </head>
+  <body><div data-sticky-container class="top-bar-container sticky-container">
+
+  <div class="sticky is-stuck" id="thetopbar" data-sticky data-options="anchor: page; marginTop: 0px; stickyOn: small;">
+    <div class="website-topbar top-bar">
+      <div class="top-bar-title">
+        <h4>Eliot Glairon - Software Engineer</h4></div>
+      <div class="title-bar-right">
+        <ul class="menu" id="websitemenu" data-magellan data-bar-offset="59">
+          <li><a href="#about-me">About Me</a></li>
+          <li><a href="#projectstitle">Portfolio</a></li>
+          <li><a href="#socialmedia">Social Media</a></li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="stack-for-small content container" id="content">
+  <h1 class="big-title" id="about-me"><span class="underline">About me</span></h1>
+  <div class="media-object">
+    <div class="media-object-section">
+      <div class="thumbnail">
+        <img src="https://dl.dropboxusercontent.com/u/28910941/ProfilePic.jpg" alt="Photo of Eliot Glairon.">
+      </div>
+    </div>
+    <div class="media-object-section main-section">
+
+      <p>Officially, I am a computer programmer, familiar with a wide breath of languages. Unofficially, this job is similar to another passion: board games. Both of these passions allow me to become engaged with solving puzzles and trying different things.  I delve deep into the complex mechanics of programming in order to solve problems with the code. At the moment, I am unfamiliar with which specialty I want to focus on, but I have ideas about going into game development or data science.  Currently, I am working towards completing all three certifications at Free Code Camp.</p>
+
+
+    </div>
+  </div>
+  <hr>
+  <h1 id="projectstitle" class="big-title"><span class="underline">Portfolio</span></h1>
+  <ul class="tabs" data-tabs id="allprojects">
+    <li class="tabs-title">
+      <a href="#freecodecampprojects" aria-selected="true">
+        <div class="thumbnail">
+          <img src="https://raw.githubusercontent.com/FreeCodeCamp/assets/master/assets/logos/fcc_puck600.png" width=150 height=150>
+        </div>
+      </a>
+    </li>
+    <li class="tabs-title">
+      <a href="#paneltributepage">
+        <div class="thumbnail">
+          <img src="https://dl.dropboxusercontent.com/u/28910941/AvayaBreeze.png" width=150 height=150>
+        </div>
+      </a>
+    </li>
+    <li class="tabs-title">
+      <a href="#panelcalculator">
+        <div class="thumbnail"><img src="https://dl.dropboxusercontent.com/u/28910941/Vma.png" width=150 height=150>
+        </div>
+      </a>
+    </li>
+    <li class="tabs-title">
+      <a href="#panelcodewarswindward">
+        <div class="thumbnail"> <img src="https://dl.dropboxusercontent.com/u/28910941/WindwardCodeWars.png" width=150 height=150></div>
+      </a>
+    </li>
+  </ul>
+
+
+  <div class="tabs-content" data-tabs-content="allprojects">
+    <div class="tabs-panel" id="freecodecampprojects">
+      <div class="media-object">
+        <div class="media-object-section">
+          <div class="thumbnail">
+            <a href="http://codepen.io/eliotn/full/EgxBkm/" target="_blank"><img src="https://dl.dropboxusercontent.com/u/28910941/Enneagram.png" width=350 height=150></a>
+          </div>
+        </div>
+        <div class="media-object-section">
+          <p>Enneagram Pormadoro Clock: This clock allows you to track and customize your pormadoro sessions with the power of the enneagram!</p>
+        </div>
+      </div>
+      <div class="media-object">
+        <div class="media-object-section">
+          <div class="thumbnail">
+            <a href="http://codepen.io/eliotn/full/qNyRKZ/" target="_blank"><img src="https://dl.dropboxusercontent.com/u/28910941/XomQuoteMachine2.png" width=350 height=150></a>
+          </div>
+        </div>
+        <div class="media-object-section">
+          <p>Xom Quote Machine: In Dungeon Crawl Stone Soup, players can worship a god for numerous benefits. One of the funniest choices is Xom, who provides the dialogue for the quote machine. </p>
+        </div>
+      </div>
+      <div class="media-object">
+        <div class="media-object-section">
+          <div class="thumbnail">
+            <a href="http://codepen.io/eliotn/full/LRROPJ/" target="_blank"><img src="https://dl.dropboxusercontent.com/u/28910941/StreamViewer.png" width=350 height=150></a>
+          </div>
+        </div>
+        <div class="media-object-section">
+          <p>Stream Viewer: Check the online or offline status of some cool online <a href="www.twitch.tv">Twitch.tv</a> streams.  The streams generally have a theme of programming.</p>
+        </div>
+      </div>
+      <div class="media-object">
+        <div class="media-object-section">
+      <div class="thumbnail">
+            <a href="http://codepen.io/eliotn/full/ORrAzd/" target="_blank"><img src="https://dl.dropboxusercontent.com/u/28910941/DogeSays.png" width=350 height=150></a>
+          </div>
+        </div>
+        <div class="media-object-section">
+          <p>Doge Simon Says -- in progress!</p>
+        </div>
+      </div>
+      <div class="media-object">
+        <div class="media-object-section">
+          <div class="thumbnail">
+            <a href="http://codepen.io/eliotn/full/vXBpGO/" target="_blank"><img src="https://dl.dropboxusercontent.com/u/28910941/CaptainObviousWikipedia.png" width=350 height=150></a>
+          </div>
+        </div>
+        <div class="media-object-section">
+          <p>Captain Obvious searches Wikipedia: This website will search Wikipedia for you!  Searching Wikipedia lets you know what is on there!  You can do the same thing by putting <a href="www.wikipedia.com">www.wikipedia.com</a> in your url bar.</p>
+        </div>
+      </div>
+      <div class="media-object">
+        <div class="media-object-section">
+          <div class="thumbnail">
+            <a href="http://codepen.io/eliotn/full/amdOEP/" target="_blank"><img src="https://dl.dropboxusercontent.com/u/28910941/Tic-Cat-Toe.png" width=350 height=150></a>
+          </div>
+        </div>
+        <div class="media-object-section">
+          <p>Tic-Cat-Toe:Ceiling cat and basement cat decide to settle their differences by playing a game of Tic-Cat-Toe</p>
+        </div>
+      </div>
+      <div class="media-object">
+        <div class="media-object-section">
+          <div class="thumbnail">
+            <a href="http://codepen.io/eliotn/full/QEkPAQ/" target="_blank"><img src="https://dl.dropboxusercontent.com/u/28910941/Calculator.png" width=350 height=150></a>
+          </div>
+        </div>
+        <div class="media-object-section">
+          <p>Calculator: This calculator takes an expression and calculates the result. The calculator respects order operations, executing operations in parenthesis first, then multiplication/division/modulo, then addition/subtraction.</p>
+        </div>
+      </div>
+
+      <div class="media-object">
+        <div class="media-object-section">
+          <div class="thumbnail">
+            <a href="http://codepen.io/eliotn/full/mAyVYE/" target="_blank"><img src="https://dl.dropboxusercontent.com/u/28910941/RogueWeather.png" width=350 height=150></a>
+          </div>
+        </div>
+<div class="media-object-section">
+  <p>Rogue Weather: Displays the weather for random places or your hometown, in roguelike style. Includes a clickable grid for exploration.</p>
+</div>
+</div>
+      <div class="media-object">
+        <div class="media-object-section">
+          <div class="thumbnail">
+            <a href="http://codepen.io/eliotn/full/KrZZxW/" target="_blank"><img src="https://dl.dropboxusercontent.com/u/28910941/DCSSTributePage.png" width=350 height=150></a>
+          </div>
+        </div>
+        <div class="media-object-section">
+          <p>DCSS Tribute Page: The Dungeon Crawl Stone Soup page is a tribute page that briefly explains the game Dungeon Crawl Stone soup, and provides the links and relevant information for the game.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="tabs-panel" id="paneltributepage">
+      <p>At Avaya, I was a platform engineer for the Engagement Development Platform (now known as Avaya Breeze). I ensured that the product was built/upgraded properly and that the command line tools and packages were working correctly. A central task was
+        improving and documenting the patch process used by the Engagement Development Platform, in order to speed up patch delivery from several weeks to a week. I was also involved with pre-sanity testing, ensuring that the code worked as expected in
+        between each sprint. Much of the job was working with Linux or Bash scripting.</p>
+
+    </div>
+    <div class="tabs-panel" id="panelcalculator">
+      <p>At Visual Exploration LLC, I prototyped the software for V-ma, a desktop magnifier to help people with limited vision read. Below is a demonstration:</p>
+      <div class="flex-video">
+        <iframe src="https://www.youtube.com/embed/ehwEuLf34u4" width="420" height="315" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="tabs-panel" id="panelcodewarswindward">
+      For the Windward code wars I made an AI for a game that involved ferrying CEOs to different destinations. The AI I made came in 4th out of over hundreds of different teams. Below is the finals game, with my AI "CU-Boulder 2011 Code War Winner".
+      <div class="flex-video">
+        <iframe src="https://www.youtube.com/embed/RvvmSR-qF-E" width="420" height="315" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <h1 class="big-title" id="socialmedia"><span class="underline">Social Media</span></h1>
+  <div class="social_media_icons"><a href="https://www.linkedin.com/in/eliotglairon" target="_blank"><i class="fi-social-linkedin"></i></a>
+
+    <a href="https://github.com/eliotn" target="_blank"><i class="fi-social-github"></i></a>
+    <a href="https://www.freecodecamp.com/eliotn" target="_blank">f</a>
+  </div>
+  <!--<ul>
+  <li>I do not use Facebook.  I have already experienced social media by participating in forum discussions.  Facebook encourages people to open source their life details too much, a practice I do not agree with.  </li>
+    <li>I do not use Twitter.  There might be some value to it in the future if I want to blog insights or projects I am working on.</li>
+  <li>I do not use StackOverflow as a contributor, although they are a great resource for troubleshooting.  I would rather help people in person, rather than have my contributions annonymously judged.</li>
+  </ul>-->
+  <hr>
+  <center>Written and Coded by Eliot Glairon as part of <a href="https://www.freecodecamp.com/" target="_blank">freeCodeCamp</a>. <a href="https://www.linkedin.com/in/eliotglairon" target="_blank"><i class="fi-social-linkedin"></i></a><a href="https://github.com/eliotn"
+      target="_blank"><i class="fi-social-github"></i></a>
+
+  </center>
+</div>
+</body>
+</html>
