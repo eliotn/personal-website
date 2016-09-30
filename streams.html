@@ -1,0 +1,161 @@
+<html>
+<head>
+
+<link href="./css/reset.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Capriola" rel="stylesheet" />
+<link href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/46336/foundation-icons.css" rel="stylesheet" />
+<link href="./css/bootstrap.min.css" rel="stylesheet" />
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<style>
+    body {
+        font-family: 'Capriola', sans-serif;
+        background:  #E6E6FA;
+    }
+/*fix weird yellow line artifact*/
+.everything {
+    border-left: 0px;
+}
+.live-stream {
+    border-radius: 10px;
+    background: #4FFFB0;
+    border: 5px solid purple;
+}
+.offline-stream {
+    border-radius: 10px;
+    background: #FADA5E;
+    border: 5px solid purple;
+}
+.invalid-stream {
+    border-radius: 10px;
+    border: 5px solid purple;
+    background: #DA2C43;
+}
+.imglogo {
+    max-height: 200px;
+    max-width: 200px;
+}
+.imgpreview {
+    max-width: auto;
+    max-height: 200px;
+}
+/*thanks  http://stackoverflow.com/questions/10560786/changing-color-of-twitter-bootstrap-nav-pills*/
+.nav-pills > li.active.greenp > a, .nav-pills > li.greenp > a:hover, .nav-pills > li.active.greenp > a:focus {
+    background-color: #4FFFB0;
+}
+.nav-pills > li.active.yellowp > a, .nav-pills > li.yellowp > a:hover, .nav-pills > li.active.yellowp > a:focus {
+    background-color: #FADA5E;
+}
+.nav-pills > li.active > a {
+    color: purple !important;
+}
+.nav-pills > li.active.redp > a, .nav-pills > li.redp > a:hover, .nav-pills > li.active.redp > a:focus {
+    background-color: #DA2C43;
+}
+/* thanks http://www.minimit.com/articles/solutions-tutorials/bootstrap-3-responsive-centered-columns*/
+/* centered columns styles */
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
+</style>
+<script>
+//https://coolors.co/b4edd2-a0cfd3-8d94ba-9a7aa0-87677b
+/*bug where there is a flash of content if not everything is in full screen*/
+
+$(document).ready(function() {
+function getChannel(channelname) {
+  
+  $.ajax({
+    url: "https://api.twitch.tv/kraken/channels/" + channelname + "?client_id=82n5vsch5l3111ovzmt292hpujmeiwr&callback=?",
+    dataType: 'json',
+    contentType: 'application/vnd.twitchtv.3+json',
+    type: 'POST',
+    headers: {
+      'Client-ID': '82n5vsch5l3111ovzmt292hpujmeiwr'
+    },
+    success: function(data) {
+    $("#debug").html($("#debug").html() + JSON.stringify(data));  $("#twitchstreamsoffline").html($("#twitchstreamsoffline").html() + "<blockquote class='offline-stream row row-centered'><h4 class='text-centered'>" + data["status"] + "</h4><a  href='https://www.twitch.tv/" + channelname + "/'  target='_blank'><img class='col-sm-4 imglogo img-responsive col-centered' src ='" + data["logo"] + "'><img class='col-sm-4 imgpreview img-responsive col-centered' src='" + ((data["video_banner"] === null)?"":data["video_banner"]) + "'></a></blockquote>");
+    }});
+}
+function getStream(streamname) {
+  var streamurl = "https://www.twitch.tv/" + streamname + "/"
+  $.ajax({
+    url: "https://api.twitch.tv/kraken/streams/" + streamname + "?client_id=82n5vsch5l3111ovzmt292hpujmeiwr&callback=?",
+    dataType: 'json',
+    contentType: 'application/vnd.twitchtv.3+json',
+    type: 'POST',
+    headers: {
+      'Client-ID': '82n5vsch5l3111ovzmt292hpujmeiwr'
+    },
+    success: function(data) {
+      // do something with data
+      $("#debug").html($("#debug").html() + JSON.stringify(data) + "<br><br>");
+      if (data["stream"] === null) {
+        /*$("#twitchstreamsoffline").html($("#twitchstreamsoffline").html() + "<a href = '" + streamurl + "' target=_blank>" + streamurl + "</a> is not available<br>");*/
+        getChannel(streamname);
+      }
+      else if (!("stream" in data)) {
+        $("#twitchstreamsgone").html($("#twitchstreamsgone").html() +  "<blockquote class='invalid-stream row row-centered'><h4 class='text-center' style='width:100%'>Channel " + streamname + " does not exist</h4></blockquote>");
+      }
+      else {
+        $("#twitchstreamsstreaming").html($("#twitchstreamsstreaming").html() + "<blockquote class='live-stream row row-centered'><h4 class='text-center' style='width:100%'>" + data["stream"]["channel"]["status"] + "</h4><a class='' href = '" + streamurl + "'  target='_blank'><img class='col-centered col-sm-4 imglogo img-responsive' src ='" + data["stream"]["channel"]["logo"] + "'><img class='col-centered col-sm-4 col-md-4 img-responsive imgpreview' src='" + data["stream"]["preview"]["medium"] + "'></a></blockquote>");
+      }
+    }
+  });
+}
+
+var streamnames = [
+  //look at  http://www.stevenyau.co.uk/twitchgamedev/
+  "flipswitchx", "hardlydifficult", "teamtalima", "thegoodideaco", "sssmcgrath", "liveordevtrying", "thatmadprogrammer", "robtheswan", "drewvancamp", "qazitv",
+                   //twitchplays, usually on
+                   "twitchplayspokemon", "twitchplaysdark",
+                  //freecodecamp
+"freecodecamp",
+                  //programming
+"programming",
+    //gamers that are cool
+"trumpsc",
+"nl_kripp",
+"lifesaglitchtv",
+  //???
+  "loadingreadyrun",
+  //joke but it can happen in the future ;P
+"twitchtvwillruinyourlife"
+
+]
+function getStreams()  {
+for (var i = 0; i < streamnames.length; i++) {
+  getStream(streamnames[i]);
+
+}
+}
+getStreams();
+});
+</script>
+</head>
+<body>
+
+<blockquote class="container everything">
+  <h1 class="text-center"> Cool streams from  Twitch.tv</h1>
+<ul class="nav nav-pills">
+  <li class="active greenp"><a href="#twitchstreamsstreaming" data-toggle="pill">Live Streams</a></li>
+  <li class="yellowp"><a href="#twitchstreamsoffline" data-toggle="pill">Offline Streams</a></li>
+  <li class="redp"><a href="#twitchstreamsgone" data-toggle="pill">Invalid Streams</a></li>
+</ul>
+<div class="tab-content">
+<div id="twitchstreamsstreaming" class="tab-pane fade in active"></div>
+<div id="twitchstreamsoffline" class="tab-pane fade in"></div>
+<div id="twitchstreamsgone" class="tab-pane fade in"></div>
+</div>
+<p class='text-center'>Written and Coded by Eliot Glairon as part of <a href='https://www.freecodecamp.com/' target='_blank'>freeCodeCamp</a>. <a href='https://www.linkedin.com/in/eliotglairon' target='_blank'><i class='fi-social-linkedin'></i></a><a href='https://github.com/eliotn' target='_blank'><i class='fi-social-github'></i></a></p>
+</blockquote>
+</body>
+</html>
