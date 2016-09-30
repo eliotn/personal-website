@@ -1,0 +1,320 @@
+<html>
+<head>
+<title>Enneagram Pormadoro Clock</title>
+<link href="./css/reset.css" rel="stylesheet" />
+<script src="./js/jquery-2.2.4.min.js"></script>
+<script src="./js/foundation.min.js"></script>
+<link href="./css/foundation.min.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Marck+Script" rel="stylesheet" />
+<link href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/46336/foundation-icons.css" rel="stylesheet" />
+<style>
+.button.hollow {
+  border-color: #ffffff;
+  color: #ffffff;
+  border-radius: 100%;
+}
+
+body {
+  background: black;
+  background-color: black;
+  color: white;
+  font-family: 'Marck Script', cursive;
+}
+
+.centeredclock {
+  
+}
+
+#time {
+  font-size:50px;
+}
+
+.clocktitle, .controls {
+  line-height: 40px !important;
+  vertical-align: middle;
+  font-size: 36px;
+}
+
+
+.ptimer {
+  font-size: 48px;
+  
+  
+}
+
+.enneagramcontainer {
+  position: relative;
+  left: 0px;
+  top: 0px;
+  
+  float: left;
+  width: 320px;
+  height: 320px;
+}
+.enneagramcontext { 
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background-color: black;
+  z-index:100;
+}
+canvas { width: 100%; height: 100% }
+
+}
+</style>
+<script>
+//interesting resource https://www.sitepoint.com/creating-accurate-timers-in-javascript/
+//args: number of milliseconds, on resolution, on an instance, on completion
+
+$(document).ready(function() {
+  //draw the enneagram
+  var cx = 0;
+  var cy = 0;
+  var type = -1;
+  var typedescriptions = ["Peacemaker", "Perfectionist", "Helper", "Achiever", "Romantic", "Observer", "Questioner", "Adventurer", "Asserter"];
+  var start;
+  var pause;
+  var isPaused = false;
+  var running;
+  var state;//pormadoro or break
+  var timers = [
+    [25, 0],
+    [5, 0]
+  ];
+  var percentElapsed = 0;
+  function drawEnneagram(time) {
+    var cv = $('#enneagram')[0];
+    var ctx = cv.getContext('2d');
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.lineWidth = 5;
+
+    //sin 0.642 cos 0.766
+    //draw the enneagram
+    //connections at [3,6,9]
+    //[3, 6, ]
+    var points = [3, 6, 9, 3, 6, 8, 2, 4, 1, 7, 5, 8, 2];
+    var connections = [[3, 6], [7, 4], [8, 4], [6, 9], [1, 2], [7, 8], [3, 9], [5, 1], [5, 2], [3, 6]];
+    var locs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(p) {
+      return [(cv.width/2 - 10) * Math.sin(((Math.PI * 2 * p) / 9)) + (cv.width/2), (cv.height/2 - 10) * -Math.cos(((Math.PI * 2 * p) / 9)) + (cv.height/2)];
+    });
+    ctx.beginPath();
+    for (var i = 0; i < points.length; i++) {
+      if (i == 0 || i == 5) {
+        ctx.strokeStyle = '#ffffff';
+        ctx.stroke();
+        ctx.moveTo(locs[points[i]][0], locs[points[i]][1]);
+      }
+      ctx.lineTo(locs[points[i]][0], locs[points[i]][1]);
+    }
+    ctx.stroke();
+    ctx.closePath();
+    function filldot(x, y, c) {
+      ctx.beginPath();
+      ctx.arc( x, y, 10, 0, 2 * Math.PI, false);
+      ctx.fillStyle = c;
+      ctx.fill();
+      ctx.closePath();
+    }
+    if (type !== -1) {
+      filldot(locs[type][0], locs[type][1], 'green');
+      filldot(locs[connections[type][0]][0], locs[connections[type][0]][1], 'red');
+      filldot(locs[connections[type][1]][0], locs[connections[type][1]][1], 'red');
+      
+      
+      if (!running && !isPaused) {
+        
+        $("#time").text("Type " + ((type == 0)?9:type) + ": The  " + typedescriptions[type]);
+      }
+      else {
+        var fromw = (state)?time/100:(100-time)/100;
+        var tow = (state)?(100 - time)/100:time/100;
+        filldot(locs[connections[type][0]][0]*fromw + locs[type][0]*tow, locs[connections[type][0]][1]*fromw + locs[type][1]*tow, (isPaused)?'yellow':'purple');
+        filldot(locs[connections[type][1]][0]*fromw + locs[type][0]*tow, locs[connections[type][1]][1]*fromw+ locs[type][1]*tow, (isPaused)?'yellow':'purple');
+      }
+      
+    }
+  }
+  drawEnneagram(0);
+  //ennegram.fillRect(0, 0, 50, 50);
+  
+
+  function changeTimer(isreset) {
+    running = (isreset)?false:!running;
+    isPaused = !isreset && !running; $("#start_timer").text((running)?"Pause Timer":(isreset)?"Start Timer":"Resume Timer");
+    if (isPaused) $("#time").text("Paused");
+    else if (type === -1 && !running) $("#time").text("Choose your type");
+    
+    if (running) {
+      start = start + (new Date().getTime() - pause);
+
+    } else if (!isreset) {
+      pause = new Date().getTime();
+    } else {
+      start = new Date().getTime();
+      pause = start;
+      state = 0;
+      timers = [[25, 0],[5, 0]];
+      updateTimers();
+      percentElapsed = 0;
+    }
+    drawEnneagram(percentElapsed);
+    if (running) {
+      setInterval(instance, 100);
+    }
+    
+  }
+  changeTimer(true);
+
+  
+  function minutes(m) {
+      if ((m + "").length < 2) return "0" + m;
+      return m + "";
+  }
+  //0 = on pormadoro, 1 = on break
+
+  $("#time").text("Choose your type - Click the diagram");
+  //update the pormadoro state
+  function switchPormadoroState(minutes, seconds) {
+    var finished_mins = timers[state][0];
+    var finished_secs = timers[state][1];
+    if (minutes > finished_mins || (minutes == finished_mins && seconds >= finished_secs)) {
+      start += finished_mins * 60000 + finished_secs * 1000;
+      state = (state + 1) % timers.length;
+
+    }
+    return false;
+  }
+  //infinite while loop
+  function instance() {
+    if (running) {
+      do {
+        var difference = new Date().getTime() - start;
+        var minuteselapsed = Math.floor(difference / 60000);
+        var secondselapsed =
+          Math.floor((difference / 1000) % 60);
+        var millisecondselapsed = (difference % 1000);
+      } while (switchPormadoroState(minuteselapsed, secondselapsed));
+      percentElapsed = (minuteselapsed * 60000 + secondselapsed * 1000 + millisecondselapsed) * 100 / (timers[state][0] * 60000 + timers[state][1] * 1000);
+
+      var thetext = minuteselapsed + ":" + minutes(secondselapsed) + " - " + ((state == 0) ? "Pormadoro" : "Break");
+      $("#time").text(thetext);
+      
+      drawEnneagram(percentElapsed);
+    }
+    
+  }
+  $("#start_timer").on("click", function() {changeTimer(false);});
+  $("#reset_timer").on("click", function () {changeTimer(true);});
+  
+  function updateTimers() {
+    
+    $("#pormodorotimer").text(timers[0][0] + ":" + minutes(timers[0][1]));
+    $("#breaktimer").text(timers[1][0] + ":" + minutes(timers[1][1]));
+  };
+  //doesn't work for over 60
+  var addTime = function(timer, time) {
+    if (running) return;
+    var secs = timer[1] + time;
+    var mins = timer[0];
+    while (secs < 0) {
+      mins -= 1;
+      secs += 60;
+      
+      
+    } 
+    while (secs > 59) {
+      mins += 1;
+      secs -= 60;
+      
+    }
+    if (mins < 0 || (mins === 0 && secs <= 0)) return;
+    if (mins > 60) return;
+    timer[0] = mins;
+    timer[1] = secs;
+  };
+  $("#pormodoroplus60").on("click", function() {
+    addTime(timers[0], 60);
+    updateTimers();
+  });
+  $("#pormodoroplus10").on("click", function() {
+    addTime(timers[0], 10);
+    updateTimers();
+  });
+  $("#pormodorominus60").on("click", function() {
+    addTime(timers[0], -60);
+    updateTimers();
+  });
+  $("#pormodorominus10").on("click", function() {
+    addTime(timers[0], -10);
+    updateTimers();
+  });
+
+  $("#breakminus60").on("click", function() {
+    addTime(timers[1], -60);
+    updateTimers();
+  });
+  $("#breakminus10").on("click", function() {
+    addTime(timers[1], -10);
+    updateTimers();
+  });
+  $("#breakplus10").on("click", function() {
+    addTime(timers[1], 10);
+    updateTimers();
+  });
+  $("#breakplus60").on("click", function() {
+    addTime(timers[1], 60);
+    updateTimers();
+  });
+  updateTimers();
+  $("#enneagram").click(function(e) {
+    if (!running) {
+      rect = this.getBoundingClientRect();
+      cx = e.pageX - rect.left - (this.width/2);
+      cy = e.pageY - rect.top - (this.height/2);
+      type = Math.floor((((Math.atan2(cy, cx) + Math.PI)*9 /(2*Math.PI)) + (27/4) + (1/2))%9);
+      drawEnneagram(0);
+    }
+  });
+});
+</script>   
+</head>
+<body>
+<div class="container-fluid pormadoroclock">
+  <div class="row small-up-1 medium-up-2">
+    <div class="small-4 column">
+      <div class="enneagramcontainer">
+        <canvas class="enneagramcontext" id="enneagram" width=320 height=320>
+  </canvas>
+      </div>
+    </div>
+    <div class="small-8 column centered" style="text-align:center">
+      <p id="time">Time</p>
+      <div class="row">
+        <div class="small-6 column"><button class="button hollow" id="start_timer">Start Timer</button></div>
+        <div class="small-6 column"><button class="button hollow" id="reset_timer">Reset Timer</button></div>
+        
+        
+        <div class="column large-2 clocktitle">Break</div>
+        <div class="large-10 column small-centered controls">
+          <button class="button hollow" id="breakminus60"><i class="fi-arrow-left"></i><i class="fi-arrow-left"></i></button>
+          <button class="button hollow" id="breakminus10"><i class="fi-arrow-left"></i></button>
+          <span id="breaktimer" class="ptimer">5:00</span>
+          <button class="button hollow" id="breakplus10"><i class="fi-arrow-right"></i></button>
+          <button class="button hollow" id="breakplus60"><i class="fi-arrow-right"></i><i class="fi-arrow-right"></i></button></div>
+        <div class="column large-2 clocktitle">Pormadoro</div>
+        <div class="large-10 column small-centered controls">
+          <button class="button hollow" id="pormodorominus60"><i class="fi-arrow-left"></i><i class="fi-arrow-left"></i></button>
+          <button class="button hollow" id="pormodorominus10"><i class="fi-arrow-left"></i></button>
+          <span id="pormodorotimer" class="ptimer">5:00</span>
+          <button class="button hollow" id="pormodoroplus10"><i class="fi-arrow-right"></i></button>
+          <button class="button hollow" id="pormodoroplus60"><i class="fi-arrow-right"></i><i class="fi-arrow-right"></i></button></div>
+      </div>
+    </div>
+  </div>
+  <center>
+    Written and Coded by Eliot Glairon as part of <a href="https://www.freecodecamp.com/" target="_blank">freeCodeCamp</a>. <a href="https://www.linkedin.com/in/eliotglairon" target="_blank"><i class="fi-social-linkedin"></i></a><a href="https://github.com/eliotn"
+      target="_blank"><i class="fi-social-github"></i></a><a href="https://www.twitter.com/eliotglairon"><i class="fi-social-twitter"></i></a></center>
+
+</div>
+</body>
+</html>
