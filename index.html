@@ -1,7 +1,7 @@
 <html><head><title>Eliot Glairon - Software Engineer</title>
-<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/foundation/6.2.0/foundation.min.js"></script>
-<link href="https://cdn.jsdelivr.net/foundation/6.2.0/foundation.min.css" rel="stylesheet" />
+<script src="./scripts/jquery-2.2.4.min.js"></script>
+<script src="./scripts/foundation.min.js"></script>
+<link href="./scripts/foundation.min.css" rel="stylesheet" />
 <link href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/46336/foundation-icons.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Ubuntu" rel="stylesheet" />
 <script>
@@ -68,13 +68,14 @@ ul.tabs {
   background-image: linear-gradient(
       rgba(68, 52, 79, 0.35), 
       rgba(68, 52, 79, 0.35)
-    );
+      
+    ), url("./images/sayagata-400px.png");
   }
   ul.tabs a:hover {
   background-image: linear-gradient(
       rgba(68, 52, 79, 0.55), 
       rgba(68, 52, 79, 0.55)
-    );
+    ), url("./images/sayagata-400px.png");
   }
   ul.tabs a:active{
   background-image: url("./images/sayagata-400px.png");
@@ -88,7 +89,7 @@ ul.tabs li {
   background-image: linear-gradient(
       rgba(147, 168, 172, 0.35), 
       rgba(147, 168, 172, 0.35)
-    );
+    ), url("./images/sayagata-400px.png");
 }
 .underline {
   border-bottom: 5px solid #e2b4bd;
@@ -287,16 +288,22 @@ ul.tabs li {
 
     </div>
     <div class="tabs-panel" id="panelcalculator">
-      <p>At Visual Exploration LLC, I prototyped the software for V-ma, a desktop magnifier to help people with limited vision read. Below is a demonstration:</p>
-      <div class="flex-video">
-        <iframe src="https://www.youtube.com/embed/ehwEuLf34u4" width="420" height="315" frameborder="0" allowfullscreen></iframe>
+      <div class="row">
+        <div class="flex-video columns small-6">
+          <iframe src="https://www.youtube.com/embed/ehwEuLf34u4" width="420" height="315" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <p class='columns small-6'>At Visual Exploration LLC, I prototyped the software for V-ma, a desktop magnifier to help people with limited vision read. Below is a demonstration:</p>
       </div>
     </div>
     <div class="tabs-panel" id="panelcodewarswindward">
-      For the Windward code wars I made an AI for a game that involved ferrying CEOs to different destinations. The AI I made came in 4th out of over hundreds of different teams. Below is the finals game, with my AI "CU-Boulder 2011 Code War Winner".
-      <div class="flex-video">
-        <iframe src="https://www.youtube.com/embed/RvvmSR-qF-E" width="420" height="315" frameborder="0" allowfullscreen></iframe>
-      </div>
+      <div class="row">
+        <div class="flex-video columns small-12 medium-6">
+          <iframe src="https://www.youtube.com/embed/RvvmSR-qF-E" width="420" height="315" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="columns small-12 medium-6">
+      <p>For the 2014 Windward Code Wars, I made an AI for Windward's game engine, that involved ferrying CEOs to different destinations.  In this game, individual cars would earn points for successfully transferring a tech company CEO to a particular location, as well as partial points for managing to bring a CEO close.  Each car had a coffee supply that could be replenished by going to a coffee shop, as coffee was needed to pick up CEOs.  To mix things up, each car had two bonuses that could be used at a strategic time.  The catch for this challenge was that teams only had 10 hours to finalize their AI.</p> 
+<p>The video is a replay of the finals game, with my AI "CU-Boulder 2011 Code War Winner".   The tricky challenge was estimating the effect that your changes to the code had on the AI.  I utilized a strategy of trying to go to the nearest CEO that I could drop off to the nearest location.  When I tried to do a deeper search, it didn't help the AI after a certain extent, this was probably due to a changing game state.  Unfortunately, I did not have much time to optimize power-up usage.</p>
+<p>For the 2011 Windward Code War, my team made a bot that played a computerized version of Robo-Rally.  For this game, my team used a Monte-Carlo strategy of trying different moves, calculating the sequence that got us closest to the flag, and announced power downs early.</p></div>
     </div>
   </div>
 
