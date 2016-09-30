@@ -1,0 +1,191 @@
+<html>
+<head>
+<link href="./css/reset.css" rel="stylesheet" />
+<link href="./css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/46336/foundation-icons.css" rel="stylesheet" />
+<script src="./js/jquery-2.2.4.min.js"></script>
+<title>Eliot's Cool Calculator</title>
+<style>
+.calculator-app {
+  font-family: Monospace !important;
+  text-align: center;
+}
+.calculator {
+  padding: 50px 10% 50px 10%;
+  
+}
+.calculator-screen {
+  text-align: right;
+  background-color:black;
+  color:#FFFFFF;
+  /*code so the calculator wraps formulas properly*/
+  /*from https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/*/
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-word;
+  word-break: break-word;
+}
+</style>
+<script>
+$(document).ready(function() {
+  var steps = [];
+  var maxsteps = 50;
+  //operations that need to be seperated by a number
+  var needszerobeforeoperation = /^$|\+$|%$|-$|\*$|\/$|\^$|\($/g;
+  //operations that need to have a zero before them
+  var addzerooperations = /\+|%|-|\*|\/|\.|\^|\)/g;
+  //operations that request removing filler if used
+  var requestnumberfillerremoved = /[0-9]|\.|\(/g;
+  //filler symbols, words such as NaN
+  var filler = /^0$|[^0-9.]0$|Infinity$|NaN$/;
+  var fillerreplaced = /0$|[a-zA-Z]*$/;
+  var numbers = /[0-9]/g;
+  //regex for disabling the dot
+  var dontadddot = /\.[0-9]*$/g;
+  var addHistory = function(eq) {
+    steps.push(eq);
+    if (steps.length > maxsteps) steps.shift();
+  }
+  var getParenthesisDepth = function(str) {
+    lparens = str.match(/\(/g);
+    rparens = str.match(/\)/g);
+    
+    return ((lparens == null)?0:lparens.length) - ((rparens == null)?0:rparens.length);
+  }
+  var updateButtons = function() {
+    var text = $("#progress").text();
+    $(".lpar").prop("disabled", !(text.match(needszerobeforeoperation) || text.match(filler)));
+    $(".rpar").prop("disabled", (getParenthesisDepth(text) <= 0));
+    $(".decimal").prop("disabled", (text.match(dontadddot)));
+    $(".solve").prop("disabled", getParenthesisDepth(text) > 0);
+    $(".undo").prop("disabled", (steps.length <= 0));
+  };
+  updateButtons();
+  $(".eqn").each(function() {
+    var $this = $(this);
+    $this.on("click", function() {
+      var text = $('#progress').text();
+      var old_text = text;
+      var button_text = $this.text();
+      
+      if (button_text.match(requestnumberfillerremoved) && text.match(filler)) {
+        text = text.replace(fillerreplaced, "");
+      }
+      if (button_text.match(addzerooperations) && text.match(needszerobeforeoperation))
+      {
+        text = text + '0';
+      }
+      if (button_text.match(numbers) && text.match(/\)$/)) {
+        text = text + '*';
+      }
+      //if (text.length <= 50) {
+        addHistory(old_text);
+        $('#progress').text(text + button_text);
+      //}
+      updateButtons();
+    });
+  });
+  $(".clear").on("click", function() {
+    addHistory($('#progress').text());
+    $('#progress').text("0");
+    updateButtons();
+  })
+  $(".solve").on("click", function() {
+    addHistory($('#progress').text());
+    var calculateAST = function(ast) {
+      if (ast.op == "+") return calculateAST(ast.lhs) + calculateAST(ast.rhs);
+      if (ast.op == "-") return calculateAST(ast.lhs) - calculateAST(ast.rhs);
+      if (ast.op == "*") return calculateAST(ast.lhs) * calculateAST(ast.rhs);
+      if (ast.op == "/") return calculateAST(ast.lhs) / calculateAST(ast.rhs);
+      if (ast.op == "%") return calculateAST(ast.lhs) % calculateAST(ast.rhs);
+      if (ast.op == "^") return Math.pow(calculateAST(ast.lhs), calculateAST(ast.rhs));
+      if (ast.op == "num") return ast.lhs;
+    };
+    //find the last thing that is not inside parenthesis
+    var lastIndexOfNoParens = function(str, subStr) {
+      var pos = str.length - 1;
+      while (true) {
+        var rparen = str.lastIndexOf(")", pos);
+        var rgxfind = str.lastIndexOf(subStr, pos);
+        if (rgxfind == -1 || pos < 0) return -1;
+        //ensure that operations with an e behind them are ignored (crude fix for handling e numbers)
+        if (rgxfind > rparen  &&  str[rgxfind - 1] != 'e') return rgxfind;
+        var parens = 1;
+        pos = rparen - 1;
+        while (parens > 0 && pos >= 0) {
+          var parenloc = Math.max(str.lastIndexOf("(", pos), str.lastIndexOf(")", pos));
+          if (parenloc <= -1) return -1;
+          parens += (str[parenloc] == ")")?1:-1;
+          pos = parenloc - 1;
+        }
+      }
+    };
+    //we want to expand the last operations first
+    var formASTAdv = function(str) {
+      //need to check to see if there is anything interesting outside of parenthesis, if not go within.
+      while (str[0] == "(" && str[str.length - 1] == ")" && lastIndexOfNoParens(str, "") == -1) {str = str.slice(1, str.length - 1);}
+      var revoperationorder = ["+-", "*/%","^"];
+      for (var i = 0; i < revoperationorder.length; i++) {
+        var operationi = Math.max.apply(null, revoperationorder[i].split("").map(function(a) {return lastIndexOfNoParens(str, a);}));
+        if (operationi != -1) {
+          return {lhs:formASTAdv(str.slice(0, operationi)), rhs:formASTAdv(str.slice(operationi + 1)), op: str[operationi]};
+        }
+      }
+      return {op:"num", lhs: parseFloat((str.length == 0)?0:str)};
+    }
+    
+ 
+ //$('#progress').text().split(operations).reduce(formAST, undefined)
+  //String(calculateAST(
+  //JSON.stringify(
+    //0 fill e.g. if we get a negetive number
+    var text = $('#progress').text();
+  var AST = formASTAdv(text);
+    $('#debug').text(JSON.stringify(AST));
+    $('#progress').text(String(calculateAST(AST)));
+    updateButtons();
+  });
+  $(".undo").on("click", function() {
+    if (steps.length > 0) {
+      $('#progress').text(steps.pop());
+    }
+    updateButtons();
+  });
+});
+</script>
+</head>
+<body>
+<div class="container-fluid calculator-app">
+<h1>Eliot's Cool Calculator</h1>
+
+  <div class="well calculator">  
+    <div class ="well calculator-screen"><h2 id="progress" class=" text">0</p></div>
+<button class="btn btn-primary undo">Undo</button>
+<button class="btn btn-primary clear">Clear</button>
+<button class="btn btn-primary eqn lpar">(</button>
+<button class="btn btn-primary eqn rpar">)</button>
+<button class="btn btn-primary eqn">0</button>
+<button class="btn btn-primary eqn">1</button>
+<button class="btn btn-primary eqn">2</button>
+<button class="btn btn-primary eqn">3</button>
+<button class="btn btn-primary eqn">4</button>
+<button class="btn btn-primary eqn">5</button>
+<button class="btn btn-primary eqn">6</button>
+<button class="btn btn-primary eqn">7</button>
+<button class="btn btn-primary eqn">8</button>
+<button class="btn btn-primary eqn">9</button>
+<button class="btn btn-primary eqn">+</button>
+<button class="btn btn-primary eqn">-</button>
+<button class="btn btn-primary eqn">*</button>
+<button class="btn btn-primary eqn">/</button>
+<button class="btn btn-primary eqn decimal">.</button>
+<button class="btn btn-primary eqn">%</button>
+<button class="btn btn-primary eqn">^</button>
+<button class="btn btn-primary solve">=</button>
+  </div>
+<!-- add debug id in order to debug -->
+<p class="center-text text">Written and Coded by Eliot Glairon as part of <a href="https://www.freecodecamp.com/">freeCodeCamp</a>. <a href="https://www.linkedin.com/in/eliotglairon"><i class="fi-social-linkedin"></i></a><a href="https://github.com/eliotn"><i class="fi-social-github"></i></a><a href="https://www.twitter.com/eliotglairon"><i class="fi-social-twitter"></i></a></p>
+</div>
+</body>
+</html>
