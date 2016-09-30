@@ -1,0 +1,486 @@
+<html>
+<head>
+<link href="./css/reset.css" rel="stylesheet" />
+<link href="./css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/46336/foundation-icons.css" rel="stylesheet" />
+<script src="./js/jquery-2.2.4.min.js"></script>
+<title>Xom's Random Quote Machine</title>
+<style>
+/*css bug, the particles cause overflow, unsure of how to fix*/
+
+.xom-background {
+  background-color: black;
+  font-family: "Lucida Console", Monaco, monospace;
+  color: black;
+}
+
+table {
+  table-layout: fixed;
+}
+@Keyframes xombackground {
+  0% {background: rgba(255, 0, 0, 0.3);}
+  16% {background: rgba(0, 255, 0, 0.3);}
+  33% {background: rgba(0, 0, 255, 0.3);}
+  50% {background: rgba(0, 255, 255, 0.3);}
+  66% {background: rgba(255, 0, 255, 0.3);}
+  83% {background: rgba(255, 255, 0, 0.3);}
+  100% {background: rgba(255, 0, 0, 0.3);}
+}
+@keyframes spinaroundmouse {
+  0% {transform: translate(50px, 0px) rotate(0deg)  ; }
+  25% {transform:translate(0px, 40px) rotate(90deg) ;}
+  50% {transform:translate(-50px, 0px) rotate(180deg);}
+  75% {transform:translate(0px, -40px) rotate(270deg);}
+  100% {transform:translate(50px, 0px) rotate(360deg);}
+}
+@keyframes changesizerandom {
+  0% {width: 25px; height: 25px;}
+  50% {width: 75px; height: 75px;}
+  100% {width: 25px; height: 25px;}
+}
+.btn {
+  font-weight: 600;
+}
+.xomparticle {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  display:block;
+  float:left;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  background-color: hsl(63, 100%, 60%);
+  
+  
+  animation: spinaroundmouse 4s linear, changesizerandom 16s;
+  animation-iteration-count: infinite;
+  
+  transform-origin: top left;
+  z-index: -100;
+  transform: translate(50px, 0px) rotate(0deg)  ;
+}
+/*idea - make the walls of Xom's quote box not allow circles through*/
+/*.container-bg {
+  width:100%;
+  height: 100%;
+  background: black;
+  position: fixed;
+  display:block;
+  z-index: -10;
+  top: calc(50% + 150px);
+  left: 0%;
+}*/
+.quote-container {
+  width: 90%;
+  height: 300px;
+  border-radius: 50px;
+  position: fixed;
+  display: inline;
+  overflow: scroll;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  animation: xombackground 100s;
+  animation-iteration-count: infinite;
+  
+  
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%); /* IE 9 */
+   -webkit-transform: translate(-50%, -50%); /* Safari */
+}
+.quotebox {
+ 
+}
+.clip-container {
+  display: inline-block;
+  height: 128px;
+  width: 128px;
+  vertical-align: center;
+}
+
+.position-clip {
+  width: 128px;
+  z-index: 5;
+}
+.xomquote {
+  
+  position:relative;
+  float: right;
+  /*left: 129px;*/
+  z-index: 10;
+  
+}
+.information_text {
+  right:0;
+  bottom:0;
+  left:0;
+  position:fixed;
+  text-align: center;
+}
+.nowrap {
+  white-space: nowrap;
+}
+/*the many faces of xom*/
+#cclip1 {
+  
+  -ms-transform: translate(0px, 0px); /* IE 9 */
+    -webkit-transform: translate(0px, 0px); /* Safari */
+    transform: translate(0px, 0px);
+}
+#clipxom1 {
+  -webkit-clip-path: polygon(0px 0px, 0px 128px, 128px 128px, 128px 0px);
+  clip-path: polygon(0px 0px, 0px 128px, 128px 128px, 128px 0px);
+  position:absolute;
+}
+#cclip2 {
+  -ms-transform: translate(-128px, 0px); /* IE 9 */
+    -webkit-transform: translate(-128px, 0px); /* Safari */
+    transform: translate(-128px, 0px);
+}
+#clipxom2 {
+  -webkit-clip-path: polygon(128px 0px, 128px 128px, 256px 128px, 256px 0px);
+  clip-path: polygon(128px 0px, 128px 128px, 256px 128px, 256px 0px);
+  position:absolute;
+}
+#cclip3 {
+  -ms-transform: translate(-256px, 0px); /* IE 9 */
+    -webkit-transform: translate(-256px, 0px); /* Safari */
+    transform: translate(-256px, 0px);
+}
+#clipxom3 {
+  -webkit-clip-path: polygon(256px 0px, 256px 128px, 384px 128px, 384px 0px);
+  clip-path: polygon(256px 0px, 256px 128px, 384px 128px, 384px 0px);
+  position:absolute;
+}
+#cclip4 {
+  -ms-transform: translate(-384px, 0px); /* IE 9 */
+    -webkit-transform: translate(-384px, 0px); /* Safari */
+    transform: translate(-384px, 0px);
+}
+#clipxom4 {
+  -webkit-clip-path: polygon(384px 0px, 384px 128px, 512px 128px, 512px 0px);
+  clip-path: polygon(384px 0px, 384px 128px, 512px 128px, 512px 0px);
+  position:absolute;
+}
+#cclip5 {
+  -ms-transform: translate(-512px, 0px); /* IE 9 */
+    -webkit-transform: translate(-512px, 0px); /* Safari */
+    transform: translate(-512px, 0px);
+}
+#clipxom5 {
+  -webkit-clip-path: polygon(512px 0px, 512px 128px, 640px 128px, 640px 0px);
+  clip-path: polygon(512px 0px, 512px 128px, 640px 128px, 640px 0px);
+  position:absolute;
+}
+#cclip6 {
+  -ms-transform: translate(-640px, 0px); /* IE 9 */
+    -webkit-transform: translate(-640px, 0px); /* Safari */
+    transform: translate(-640px, 0px);
+}
+#clipxom6 {
+  -webkit-clip-path: polygon(640px 0px, 640px 128px, 768px 128px, 768px 0px);
+  clip-path: polygon(640px 0px, 640px 128px, 768px 128px, 768px 0px);
+  position:absolute;
+}
+#cclip7 {
+  -ms-transform: translate(-768px, 0px); /* IE 9 */
+    -webkit-transform: translate(-768px, 0px); /* Safari */
+    transform: translate(-768px, 0px);
+}
+#clipxom7 {
+  -webkit-clip-path: polygon(768px 0px, 768px 128px, 896px 128px, 896px 0px);
+  clip-path: polygon(768px 0px, 768px 128px, 896px 128px, 896px 0px);
+  position:absolute;
+}
+#cclip8 {
+  -ms-transform: translate(-896px, 0px); /* IE 9 */
+    -webkit-transform: translate(-896px, 0px); /* Safari */
+    transform: translate(-896px, 0px);
+}
+#clipxom8 {
+  -webkit-clip-path: polygon(896px 0px, 896px 128px, 1024px 128px, 1024px 0px);
+  clip-path: polygon(896px 0px, 896px 128px, 1024px 128px, 1024px 0px);
+  position:absolute;
+}
+
+/*Generated automatically thanks to http://charliepark.org/bootstrap_buttons/
+*/
+
+.btn{
+  background-color: hsl(63, 100%, 67%) !important;
+  background-repeat: repeat-x;
+  /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fdffe5", endColorstr="#f6fe56");*/
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#fdffe5), to(#f6fe56));
+  background-image: -moz-linear-gradient(top, #fdffe5, #f6fe56);
+  background-image: -ms-linear-gradient(top, #fdffe5, #f6fe56);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fdffe5), color-stop(100%, #f6fe56));
+  background-image: -webkit-linear-gradient(top, #fdffe5, #f6fe56);
+  background-image: -o-linear-gradient(top, #fdffe5, #f6fe56);
+  background-image: linear-gradient(#fdffe5, #f6fe56);
+  border-color: #f6fe56 #f6fe56 hsl(63, 100%, 60%);
+  color: #333 !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.46);
+  -webkit-font-smoothing: antialiased;
+}
+</style>
+<script>
+
+$(document).ready(function() {
+  new_title = function() {
+  var xom_title_weights = [280, 5, 5, 5, 1, 5, 5, 1, 1, 5
+                      , 5, 1, 5, 5, 5, 5, 2, 2, 2, 2, 2, 1, 1, 4, 2, 2, 2, 5, 5];
+  var xom_titles = [
+"Xom of Chaos",
+"Xom the Random",
+"Xom the Random Number God",
+"Xom the Elder Chaos God",
+"Xom the Tricky",
+"Xom the Less-Predictable",
+"Xom the Unpredictable",
+"Xom of Many Doors",
+"Xom the Capricious",
+"Xom of Bloodstained Whimsey",
+"Xom of Enforced Whimsey",
+"Xom of Bone-Dry Humour",
+"Xom of Malevolent Giggling",
+"Xom of Malicious Giggling",
+"Xom the Psychotic",
+"Xom the Psychopath",
+"Xom of Gnomic Intent",
+"Xom of Ineffable Intent",
+"Xom of Fickle Intent",
+"Xom of Swiftly Tilting Intent",
+"Xom of Unknown Intent",
+"Xom the Fickle",
+"Xom of Unknown Intention",
+"The Xom-Meister",
+"The Xom-Meister, Xom-a-lom-a-ding-dong",
+"The Xom-Meister, Xom-o-Rama",
+"The Xom-Meister, Xom-Xom-bo-Bom, Banana-Fana-fo-Fom",
+"Xom the Begetter of Turbulence",
+"Xom the Begetter of Discontinuities"];
+  var xom_title_pick = Math.floor(xom_title_weights.reduce(function(a, b) { return a + b; }, 0) * Math.random());
+  var totalweight = 0;
+  for (var i = 0; i < xom_title_weights.length; i++) {
+    totalweight += xom_title_weights[i];
+    if (totalweight > xom_title_pick) return xom_titles[i];
+  }
+  return "What is my name?";
+}
+
+  //taken from https://github.com/crawl/crawl/blob/master/crawl-ref/source/dat/database/godspeak.txt
+  var xom_quotes = [
+//god quotes page
+'Xom snickers.',
+'"How about this?"',
+'"Let\'s try an experiment, hmmm?"',
+'Xom grants you a gift!',
+'"Here."',
+'Xom\'s generous nature manifests itself.',
+'Xom grants you an implement of some kind.',
+'"Take this instrument of something!"',
+'"Take this token of my esteem."',
+'Xom smiles on you.',
+'"Catch!"',
+'"Serve the mortal, my child!"',
+'"Serve the toy, my child!"',
+'Xom opens a gate.',
+'"Serve the mortal, my children!”',
+'Xom grants you some temporary aid.',
+'Xom momentarily opens a gate.',
+'Xom briefly touches your surroundings.',
+'Xom adds some personal touches to your environment.',
+'Xom complains about the scenery.',
+'Xom alters the dungeon around you.',
+'"There, this looks better."',
+'"Just a minor improvement..."',
+'Xom almost notices you.',
+'Xom\'s attention almost turns to you for a moment.',
+'Xom\'s power almost touches on you for a moment.',
+'You almost hear Xom\'s maniacal laughter.',
+'Xom notices you.',
+'Xom\'s attention turns to you for a moment.',
+'Xom\'s power touches on you for a moment.',
+'You hear Xom\'s maniacal laughter.',
+'"Try this."',
+'Xom\'s attention turns to you.',
+'Xom\'s power touches on you.',
+'Xom giggles.',
+'"This scratches an itch."',
+'"Running a series of toy crash tests now."',
+'Xom decides to rearrange the pieces.',
+'"First here, now there."',
+'"This might be better!"',
+'"This is how I like it!"',
+'"Whee!"',
+'"Let\'s go for a ride!"',
+'"Where it stops, nobody knows!"',
+'Xom twists space around you.',
+'"Heh heh heh..."',
+'Xom\'s power touches on your mind for a moment.',
+'Xom titters.',
+'"You have displeased me, mortal."',
+'"You have grown too confident for your meagre worth."',
+'Xom\'s power touches on you for a moment.',
+'You hear Xom\'s maniacal laughter.',
+'"Suffer!"',
+'Xom\'s malign attention turns to you for a moment.',
+'"Time to have some fun!"',
+'"Fight to survive, mortal."',
+'"Let\'s see if it\'s strong enough to survive yet."',
+'"You have grown too comfortable in your little world, mortal!"',
+'Xom casts you into the Abyss!',
+'The world seems to spin as Xom\'s maniacal laughter rings in your ears.',
+'"Kidding!"',
+'"On second thoughts, though..."',
+'"No, I\'ve changed my mind."',
+'Xom pulls you back into the comparable quietude of the dungeon.',
+"Get back here!",
+"No you don't!",
+'Xom\'s power touches on a nearby weapon.',
+'"Have a taste of chaos, mortal."',
+'Xom chortles.',
+'Xom makes a sudden noise!',
+'"Boo!"',
+'Xom does a drum roll.',
+'"Over there now!"',
+'"Get over here!"',
+'Xom decides to shift things around a little.',
+'"Go forth and destroy!"',
+'"Go forth and cause havoc, mortal!"',
+'Xom grants you a minor favour.',
+'Xom smiles on you.',
+'"See what I see, my child!"',
+'Xom grants you insight.',
+'Xom smirks.',
+'Xom\'s power flows through you!',
+'Xom plays with reality for a moment.',
+'Xom guffaws.',
+'"Go forth and redecorate, my child!"',
+'"This place needs a little more atmosphere."',
+'"This might be better!"',
+'"Hum-dee-hum-dee-hum..."',
+'Xom\'s power touches on a nearby monster.',
+'You hear Xom\'s avuncular chuckle.',
+'"You need some minor adjustments, mortal!"',
+'"Let me alter your pitiful body."',
+'Xom\'s power touches on you for a moment.',
+'"You need some minor improvements, mortal!"',
+'"Let me alter your body."',
+'Xom\'s power brushes against you for a moment.',
+'Xom transforms those around you.',
+'"I like them better like this."',
+'"Never liked these squiggly things."',
+'Xom touches your surroundings.',
+'"Burn, baby, burn!"',
+'"Ka-boom!"',
+'Xom calls forth mighty explosions.',
+'Xom rains down devastation!',
+'"Feel my power!"',
+'Xom gives a demonstration of destructive might.',
+'"Let it end in hellfire!"',
+'"Oops, I didn\'t mean to do that!"',
+'"How\'d that happen? Weird."',
+'"Let me repair your body."',
+'Xom tricks Death into leaving you alone.',
+'Xom\'s maniacal laughter scares Death away.',
+'Xom\'s power revives you.',
+'Xom brings you back to life.',
+'Xom smiles on you.',
+'"Toy, don\'t you die on me yet!"',
+'"One more life."',
+'Xom changes the scenery.',
+'Xom pokes at a nearby staircase.',
+'"Tag, you\'re it!"',
+'Xom shushes you conspicuously.',
+'Xom whispers "Shhh!"',
+'"The weather\'s been a little too boring around here."',
+'Xom asks Qazlal to spice things up a little.',
+'"Forecast: mostly cloudy."',
+'Xom roars with laughter!',
+'Xom thinks this is hilarious!',
+'Xom is highly amused!',
+'Xom cackles wildly!',
+'Xom snickers!',
+'Xom laughs nastily!',
+'Xom howls with laughter!',
+'Xom bursts into laughter!',
+'Xom giggles madly!',
+'Xom titters!',
+'Xom chuckles heartily!',
+'Xom chortles!'
+    
+
+];
+  
+  
+  $("#newQuoteMessage").on("click", function(){
+  var new_quote = xom_quotes[Math.floor(Math.random() * (xom_quotes.length))]
+  var xoms_title = new_title();
+  $(".quote").html(new_quote);
+ $(".xom-title").html(xoms_title);
+  frame = Math.ceil(Math.random()*8)
+;
+ $("#xomtweets").prop("href", "https://twitter.com/intent/tweet?hashtags=xomtweets&related=freecodecamp&text="+new_quote);
+ $(".xomframe").prop("id", "clipxom" + frame);
+ $(".clip-container").prop("id", "cclip" + frame);
+  });
+  $(".xom-title").text("Xom of Chaos");
+  $(".quote").text("A new plaything!");
+  $("#xomtweets").prop("href", "https://twitter.com/intent/tweet?hashtags=xomtweets&related=freecodecamp&text=Xom of Chaos says: A new playting!");
+  
+  //mouse move event
+  //adapted for touch
+  $(document).on("touchmove mousemove", function(e) {
+    
+    
+    //var touch = e.originalEvent.touches[0];
+    $(".xomparticle").css("top", e.pageY);
+    $(".xomparticle").css("left", e.pageX);
+  });
+  
+});
+</script>
+</head>
+<body>
+
+<div class="container-fluid xom-background">
+  
+<div class="xomparticle"></div>
+  <div class="xomparticle" style="animation-delay:-0.8s, -9s;background-color:blue;"></div>
+  <div class="xomparticle" style="animation-delay:-1.6s,-3s;background-color:purple;"></div>
+  <div class="xomparticle" style="animation-delay:-2.4s, -12s;background-color:red;"></div>
+  <div class="xomparticle" style="animation-delay:-3.2s, -9s;background-color:pink"></div>
+  <div class="container-bg"></div>
+  <div class="quote-container">
+    <table class="quotebox">
+      <tr>
+        <td class="position-clip">
+          <div class="clip-container" id="cclip1">
+            <img src="https://dl.dropboxusercontent.com/u/28910941/altar_xom_all_detail.png" id="clipxom1" class="xomframe" alt="Xom's altar">
+          </div>
+        </td>
+        <td class="xomquote">
+          <h1 class="xom-title text nowrap">Xom</h1>
+          <h2 class="quote text nowrap">Example Text</h2>
+          <button id="newQuoteMessage" class="btn btn-primary">Watch as Xom plays with you!</button>
+          <a href="#" target="_blank" id="xomtweets"><button id="xomTweets" class="btn btn-primary">Xom plays around with Twitter!</button></a>
+
+          <p class="text">Xom is a god in Dungeon Crawl Stone Soup, an open-source roguelike game. This god is fond of playing around with his legions of Chaos Knights, granting them blessings or punishments at a whim. - <a href="https://github.com/crawl/crawl/blob/master/crawl-ref/source/dat/database/godspeak.txt">Xom quote Source</a>
+        </td>
+      </tr>
+      <th rowspan="2">
+        <td>
+          <center>
+            <hr>
+            <p class="information-text text">
+              Written and Coded by Eliot Glairon as part of <a href="https://www.freecodecamp.com/">freeCodeCamp</a>. <a href="https://www.linkedin.com/in/eliotglairon"><i class="fi-social-linkedin"></i></a><a href="https://github.com/eliotn"><i class="fi-social-github"></i><a href="https://www.twitter.com/eliotglairon"><i class="fi-social-twitter"></i></a>
+</p></center>
+        </td>
+      </th>
+    </table>
+  </div>
+</div>
+</body>
+</html>
