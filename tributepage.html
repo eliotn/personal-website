@@ -1,0 +1,87 @@
+<html>
+<head>
+<link href="./css/reset.css" rel="stylesheet" />
+<link href="./css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/46336/foundation-icons.css" rel="stylesheet" />
+<style>
+.information-card-whitespace {
+  padding: 100px 10% 0px 10%;
+}
+
+.information-card {
+  margin: 0px 0px 0px 0px;
+  padding: 50px 10% 50px 10%;
+}
+
+.crawl-text-padding {
+  padding: 0% 10% 0% 10%
+}
+/*not the same solution as the example tribute page but gets rid of the unnecessary padding for mobile*/
+@media (max-width: 767px) {
+  .information-card-whitespace {
+    padding: 0% 0% 0% 0%;
+  }
+  .crawl-text-padding {
+    padding: 0% 0% 0% 0%;
+  }
+}
+.center-text {
+  text-align: center;
+}
+.crawl-tribute {
+  background-color: black;
+  font-family: Monospace !important;
+}
+/*harvested from the screenshot*/
+.yellow-text {
+  color: rgb(244, 233, 79);
+}
+.white-text {
+  color: rgb(186, 189, 182);
+}
+/*with css reset revert to normal*/
+ul {
+	list-style: disc;
+  list-style-position: inside;
+}
+</style>
+<title>DCSS Tribute Page</title>
+</head>
+<body>
+<div class="container-fluid">
+  <div class="information-card-whitespace">
+    <div class="well-lg crawl-tribute information-card">
+      <div class="center-text">
+        <h1 class="text-primary yellow-text">Dungeon Crawl Stone Soup</h1>
+        <h3 class="text white-text"><em>The dungeon crawler thats been killing adventurers since 2006</em></h3>
+        <div class="well crawl-tribute"> 
+          <img src="https://dl.dropboxusercontent.com/u/28910941/DCSSScreenshot.png" class="img-responsive" alt="Dungeon Crawl Stone Soup Screenshot">
+          <p class="text yellow-text">Another kitty (Felid) who might be killed by a horde of nagas.</p>
+        </div>
+      </div>
+      <div class="text crawl-text-padding" >
+      <h3 class="yellow-text">Why Dungeon Crawl Stone Soup is an excellent roguelike game:</h3>
+      <ul class="white-text">
+        <li>It is easy to go online and try it out.</li>
+        <li>A clear and coherent game design philosophy.</li>
+        <li>Deitys with a variety of different themes, such as Sif Muna, the god of magic.</li>
+        <li>Loads of different races that require different playstyles, such as felids and octopodes.</li>
+        <li>Flexible skill training, allowing you to develop and change your character as you progress.</li>
+        <li>Interesting monsters for each stage of the game.</li>
+        <li>Prevention of grinding strategies.</li>
+        <li>Lategame monsters that are still threatening, forcing players to adapt or die.</li>
+        <li>A supportive community that is willing to give advice to help you become a better player.</li>
+        <li>It is actively being developed.</li>
+      </ul>
+        <h4 class="yellow-text">&lt;Elynae&gt; summon ice beast is so damn good <br>&lt;Elynae&gt; i'll kill cerebov with it to prove that <br>&lt;Gretell&gt; Elynae the Summoner (L11 HuSu), worshipper of Ashenzari, killed by miscasting Summon Ice Beast on Lair:1, with 7605 points after 18288 turns and 1:21:04.</h3>
+        <em><h5 class="white-text">-Funny last words</h4></em>
+        <h3 class="yellow-text">If you have time you should learn about and play the game online at <a href="http://crawl.develz.org">crawl.develz.org</a>. Or you can look at the project on <a href="https://github.com/crawl/crawl">github</a>.
+        </h3>
+      </div>
+    </div>
+    <hr>
+  </div>
+  <p class="center-text text">Written and Coded by Eliot Glairon as part of <a href="https://www.freecodecamp.com/">freeCodeCamp</a>. <a href="https://www.linkedin.com/in/eliotglairon"><i class="fi-social-linkedin"></i></a><a href="https://github.com/eliotn"><i class="fi-social-github"></i></a><a href="https://www.twitter.com/eliotglairon"><i class="fi-social-twitter"></i></a></p>
+</div>
+</body>
+</html>
