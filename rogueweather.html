@@ -1,0 +1,282 @@
+<html>
+<head>
+<script src="./js/jquery-2.2.4.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet" />
+<link href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/46336/foundation-icons.css" rel="stylesheet" />
+<title>Rogue Weather</title>
+<style>
+body {
+  background-color: #000000;
+  color: #ffffff;
+  font-family: 'Roboto Mono', monospace;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0px;
+  
+}
+
+th {
+    text-align: left;
+    vertical-align: top;
+    padding: 0px;
+    margin: 0px;
+    height: 0px;
+  
+}
+h4 {
+  
+}
+.rl {
+  font-size: 24px;
+}
+.green {
+  color: green;
+}
+
+
+.rlgrid  {
+  color: #aaaaaa;
+  text-decoration: none;
+}
+</style>
+<script>
+var icons = ["01d", "01n", "02d", "02n", "03d", "03n", "04d", "04n", "09d", "09n", "10d", "10n", "11d", "11n", "13d", "13n", "50d", "50n"];
+var lat = "NONE";
+var lon = "NONE";
+var cel = "Undefined";
+var far = "Undefined";
+var placename = undefined;
+var placecountry = undefined;
+var placeweather = undefined;
+var displaycelcius = false;
+var locationdata = undefined;
+var losrange = 4;
+var defaultchar = '.';
+var px = 0;
+var py = 0;
+var mons = [];
+function clickGrid(x, y) {
+  px = x;
+  py = y;
+  if (y == 0 && x < 3) {
+    displaycelcius = false; 
+  }
+  else if (y == 0 && x >= 9 && x < 12)   {
+    displaycelcius = true;
+  }
+  else if (y === mons.length - 1 && x < 3) {
+    setWeather(randomData());
+  }
+  
+  
+  
+  updateDisplay()
+}
+//ideas:
+//-los of 2-3 in day
+//-los of 1 at night
+//-generate random weather "monsters"
+//-v for clouds
+//-ice monsters for snow
+//-merfolk for rain
+//-lightning monsters for thunderstorm
+//-# everywhere for mist and los of  1
+function makeMons(ch) {
+  do {
+    yp = Math.floor(Math.random() * mons.length);
+    xp = Math.floor(Math.random() * mons[0].length);
+  } while (mons[yp][xp] !== undefined || ((yp === 0) && (xp < 3 || xp >= 9)) || ((yp === mons.length - 1) && (xp < 3)));
+  mons[yp][xp] = ch;
+}
+
+function generateDisplay(icon) {
+  mons = [];
+  for (var i = 0; i < 7; i++) {
+    mons.push([]);
+    for (var j = 0; j < 12; j++) {
+      mons[i].push(undefined);
+    }
+  }
+  if (icon[0] === '5') {
+    defaultchar = '#';
+  } 
+  else {
+    defaultchar = '.';
+  }
+  if (icon[0] === '5' || icon[2] === 'n') {
+    losrange = 2.5;
+  }
+  else {
+    losrange = 12;
+  }
+  var clouds = 0;
+  var rain = 0;
+  var ice = 0;
+  var thunder = 0;
+  switch (icon) {
+    case '02d':
+    case '02n':
+      clouds = 6;
+      break;
+    case '03d':
+    case '03n':
+      clouds = 10;
+      break;
+    case '10d':
+    case '10n':
+      rain = 10;
+      clouds = 15;
+      break;
+    case '09d':
+    case '09n':
+      rain = 5;
+      clouds = 15;
+      break;
+    case '04d':
+    case '04n':
+      clouds = 15;
+      break;
+    case '13d':
+    case '13n':
+      clouds = 15;
+      ice = 15;
+      break;
+    case '11d':
+    case '11n':
+      rain = 10;
+      clouds = 15;
+      thunder = 5;
+      break;
+    case '50d':
+    case '50n':
+      clouds = 25;
+      break;
+  }
+  for (var i = 0; i < clouds; i++)  {
+    makeMons('v');
+  }
+  for (var i = 0; i < rain; i++)  {
+    makeMons('n');
+  }
+  for (var i = 0; i < ice; i++)  {
+    makeMons('D');
+  }
+  for (var i = 0; i < thunder; i++) {
+    makeMons('e');
+  }
+}
+
+function displayAt(x, y) {
+  var char = defaultchar;
+  var color = '#999999';
+  var background = '';
+  if ((x - px)*(x - px) + (y - py)*(y - py) < losrange) {
+    if (mons[y][x] != undefined) {
+      char = mons[y][x]; 
+    }
+    switch (char) {
+        case 'n':
+          color = "blue";
+          break;
+    case 'v':
+        color = "grey";
+      break;
+    case 'D':
+      color = "#93A8AC";
+      break;
+    case 'e':
+      color = "yellow";
+      break;
+    default:
+        color = "#ffffff";
+        break;
+      }
+    background = "#333333";
+  }
+  if (px === x && py === y) {
+    char = "@";
+    color = "#ffffff";
+  }
+  else if (y === 0 && x < 3) {
+    char = "Far"[x];
+  }
+  else if (y === 0 && x >= 9 && x < 12)   {
+    char = "Cel"[x-9];
+  }
+  else if (y === mons.length - 1 && x < 3) {
+    char = "Rng"[x];
+  }
+  
+  
+  
+  
+  
+  text = "<a class='rlgrid' href=javascript:clickGrid(" + x + "," + y + ") style='background-color:" + background + "; color:" + color + "'>" + char + "</a>";
+  return text;
+}
+
+function updateDisplay() {
+  rldisplay = []
+  for (var i = 0; i < 7; i++) {
+    for (var j = 0; j < 12; j++) {
+      rldisplay.push(displayAt(j, i));
+    }
+    if (i != 6) {
+      rldisplay.push("<br>");
+    }
+  }
+  var temp = far + " F";
+  if (displaycelcius) {
+    temp = cel + " C";
+  }
+  $("#roguelike-grid").html(rldisplay.join(""));
+  $("#weather-status").html(placename + "<br>" + placecountry + "<br>" + placeweather + "<br>" + temp);
+}
+
+function setWeather(data) {
+     $("#debug").text(JSON.stringify(data));
+      //calculate Celcius and farenheight
+      cel = Math.round(data["main"]["temp"] - 273.15);
+      far = Math.round((data["main"]["temp"] * 1.8 - (273.15 * 1.8) + 32));
+      placename = data["name"];
+      placecountry = data["sys"]["country"];
+      placeweather = data["weather"][0]["description"];
+      $("#weather").text("Weather for " + data["name"] + ", " + data["sys"]["country"] + " " + cel + " degrees celcius, " + far + " degrees farenheight.");
+      generateDisplay(data["weather"][0]["icon"]);
+      //generateDisplay(data["weather"][0]["icon"]);
+      updateDisplay();
+}
+
+function randomData() {
+  do {
+    lat = Math.random()*160 - 80;
+    lon = Math.random()*360 - 180;
+  } while (Math.cos(Math.pi*Math.abs(lat)/180) < Math.random());
+  return $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=16e3ad8b5670f9e06240d8acee15ce81", setWeather);
+}
+
+
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    lat = position.coords.latitude;
+    lon = position.coords.longitude;
+    $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=16e3ad8b5670f9e06240d8acee15ce81", setWeather);
+  });
+} 
+$(document).ready(function() {
+  setWeather(randomData());//
+});
+</script>
+
+</head>
+<body>
+<table cell><tr><th class = "rl" id="roguelike-grid"></th>
+  <th class = "rl" id="weather-status"></th></tr></table>
+<h4>Click the spaces in the rogue-like grid above to explore the weather or change settings.<br>Far=Farenheight Cel=Celcius Rng=Generate Random Weather (please limit use so others can enjoy)</h4>
+ <center>Written and Coded by Eliot Glairon as part of <a href="https://www.freecodecamp.com/" target="_blank">freeCodeCamp</a>. <a href="https://www.linkedin.com/in/eliotglairon" target="_blank"><i class="fi-social-linkedin"></i></a><a href="https://github.com/eliotn"
+      target="_blank"><i class="fi-social-github"></i></a><a href="https://www.twitter.com/eliotglairon"><i class="fi-social-twitter"></i></a>
+
+  </center>
+</body>
+</html>

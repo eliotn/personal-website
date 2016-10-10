@@ -19,7 +19,14 @@ var MarkdownOutput = React.createClass({
 var MarkdownInput = React.createClass({
   displayName: "MarkdownInput",
   getInitialState: function() {
-    return {state: "HELLO\n*[HELLO]: Hi Eliot"};
+    return {state: "HELLO\n===\nError, the example content didn't load"};
+  },
+  componentDidMount: function() {
+    console.log("HI");
+    this.serverRequest = $.get("examplemarkdown.md", function (result) {
+	console.log(result);
+	this.setState({state: result});
+    }.bind(this));
   },
   handleChange: function(event) {
     console.log("CHANGED!");
@@ -31,8 +38,8 @@ var MarkdownInput = React.createClass({
   render: function () {
     return (
       React.createElement('div', {id:this.markdownHTML().__html}, 
-        React.createElement('textarea', {cols: "40", rows: "40", type: "text", value: this.state.state, onChange: this.handleChange, className: "markdownInput", ref:"textarea"}, null),
-        React.createElement('div', {dangerouslySetInnerHTML:this.markdownHTML()}, null)
+        React.createElement('textarea', {cols: "80", rows: "40", type: "text", value: this.state.state, onChange: this.handleChange, className: "markdownInput", ref:"textarea"}, null),
+        React.createElement('div', {dangerouslySetInnerHTML:this.markdownHTML(), id: "mycontent"}, null)
       )
     )
   }
