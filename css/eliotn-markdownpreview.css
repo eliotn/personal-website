@@ -1,0 +1,16 @@
+textarea {
+  font-family: monospace;
+  position: fixed;
+  float: left;
+  height: 90%;
+  width: 30%; }
+
+#mycontent {
+  left: 35%;
+  height: 100%;
+  width: 60%;
+  position: absolute;
+  overflow: scroll;
+  font-family: sans-serif; }
+
+/*# sourceMappingURL=eliotn-markdownpreview.css.map */

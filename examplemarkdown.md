@@ -1,5 +1,5 @@
 # Welcome to Eliot's Markdown Sandbox
-![Photo of Eliot Glairon][personalphoto]
+[![Photo of Eliot Glairon][personalphoto]](http://www.eliotglairon.com/)
 _____
 ###### Note: Feel free to change the text in the box, and the preview will reflect your changes
 
