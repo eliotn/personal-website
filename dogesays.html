@@ -1,0 +1,246 @@
+<html><head><title>Doge Says</title>
+<link href="./css/reset.css" rel="stylesheet" />
+<script src="./js/jquery.min.js"></script>
+<script src="./js/howler.min.js"></script>
+<link href="./css/foundation.min.css" rel="stylesheet" />
+<link href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/46336/foundation-icons.css" rel="stylesheet" />
+<meta name=viewport content="width=device-width, initial-scale=1">
+<style>
+/*doge colors: https://coolors.co/export/pdf/5bc0eb-fde74c-9bc53d-e55934-fa7921*/
+/*doge font:
+Thanks to dogesans.info for the free
+font -- unfortunately may not have browser compatibility*/
+@font-face {
+  font-family: 'DogeSans';
+  src: url("https://dl.dropboxusercontent.com/u/28910941/DogeSans-Regular.otf") format("opentype");
+}
+body {
+  background: #74ACF7;
+}
+body, h1, h2 {
+  font-family: 'DogeSans', sans-serif;
+}
+#strictSwitchPositioning.disabled {
+  opacity: 0.25;
+  pointer-events: none; /*Prevents click events from working*/
+}
+#page {
+  max-width:500px;
+  text-align: center;
+  margin: 0 auto;
+  width: auto;
+}
+.button {
+  background: #ffffff;
+}
+.invis{
+  display:none;
+}
+
+
+ul {
+  
+  list-style-type: none;
+}
+li {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+  position: absolute;
+  list-style-type: none;
+}
+.dogesays {
+  background: #F7BF74;
+  border-radius: 20%;
+  position: absolute;
+  width: 500px;
+  height: 500px;
+}
+#startSwitchPositioning {
+  position: absolute;
+  top: 100px;
+  left: 160px;
+}
+#strictSwitchPositioning {
+  position: absolute;
+  top: 100px;
+  left: 260px;
+}
+h1, h2 {
+  pointer-events: none;
+  z-index: 999;
+  width: 500px;
+  position: absolute;
+  text-align: left;
+}
+#text1 {
+  
+  left: 200px;
+  top: 300px;
+  color: yellow;
+}
+#texttitle {
+  left: 125px;
+  width: 500px;
+  top: 20px;
+  color: yellow;
+  z-index: 0;
+}
+#dogered {
+  background: 
+	  linear-gradient(
+		rgba(299, 89, 52, 0.8), 
+		rgba(299, 89, 52, 0.8)
+),url("./images/doge.png");
+  width:100px;
+  height:100px;
+  background-size: 100px;
+  left: 250px;
+  top: 150px;
+}
+
+#dogered.active, .preload1 {
+  background-image: 
+	  linear-gradient(
+		rgba(299, 89, 52, 0.3), 
+		rgba(299, 89, 52, 0.3)
+),url("./images/doge.png");
+  width:100px;
+  height:100px;
+  background-size: 100px;
+}
+#dogeblue {
+  background-image: 
+	  linear-gradient(
+		rgba(91, 192, 235, 0.8), 
+		rgba(91, 192, 235, 0.8)
+),url("./images/doge.png");
+  width:100px;
+  height:100px;
+  background-size: 100px;
+  left: 150px;
+  top: 150px;
+}
+#dogeblue.active, .preload2 {
+  background-image: 
+	  linear-gradient(
+		rgba(91, 192, 235, 0.3), 
+		rgba(91, 192, 235, 0.3)
+),url("./images/doge.png");
+  width:100px;
+  height:100px;
+  background-size: 100px;
+}
+#dogeyellow {
+  background-image: 
+	  linear-gradient(
+		rgba(253, 231, 76, 0.8), 
+		rgba(253, 231, 76, 0.8)
+),url("./images/doge.png");
+  width:100px;
+  height:100px;
+  background-size: 100px;
+  left: 250px;
+  top: 250px;
+}
+#dogeyellow.active, .preload3 {
+  background-image: 
+	  linear-gradient(
+		rgba(253, 231, 76, 0.3), 
+		rgba(253, 231, 76, 0.3)
+),url("./images/doge.png");
+  width:100px;
+  height:100px;
+  background-size: 100px;
+}
+#dogegreen {
+  background-image: 
+	  linear-gradient(
+		rgba(155, 197, 61, 0.8), 
+		rgba(155, 197, 61, 0.8)
+),url("./images/doge.png");
+  width:100px;
+  height:100px;
+  background-size: 100px;
+  left: 150px;
+  top: 250px;
+}
+#dogegreen.active, .preload4 {
+  background-image: 
+	  linear-gradient(
+		rgba(155, 197, 61, 0.3), 
+		rgba(155, 197, 61, 0.3)
+),url("./images/doge.png");
+  width:100px;
+  height:100px;
+  background-size: 100px;
+}
+
+#dogecoin {
+  background-image: 
+	  linear-gradient(
+		rgba(155, 197, 61, 0.0), 
+		rgba(155, 197, 61, 0.0)
+),url("https://dl.dropboxusercontent.com/u/28910941/dogecoin.png");
+  width:100px;
+  height:100px;
+  background-size: 100px;
+  left: 350px;
+  top: 250px;
+}
+#dogestrict {
+  
+}
+</style>
+
+</head>
+<body>
+    <blockquote id="page" class="invis">
+        <img class="preload1" style="display:none;" alt="" />
+        <img class="preload2" style="display:none;" alt="" />
+        <img class="preload3" style="display:none;" alt="" />
+        <img class="preload4" style="display:none;" alt="" />
+        <div class="dogesays">
+            
+            <ul>
+                <li><h2 id="text0"></h1></li>
+                <li><h2 id="text1">wow</h2></li>
+                <li><h2 id="text2"></h1></li>
+                <li><h2 id="text3"></h1></li>
+                <li><h2 id="text4"></h1></li>
+                <li><h2 id="textcount"></h1></li>
+                
+                <li><h1 id="texttitle">Doge Says</h1></li>
+                <li id="strictSwitchPositioning"><div class="switch large">
+                    <input class="switch-input" id="strictSwitch" type="checkbox" name="strictSwitch" onClick="toggleStrict()" checked>
+                        <label class="switch-paddle" for="strictSwitch">
+                            <span class="show-for-sr">Such Strictness</span>
+                            <span class="switch-active" aria-hidden="true">hard</span>
+                            <span class="switch-inactive" aria-hidden="true">ez</span>
+                        </label>
+                        </div></li>
+                <li onClick="simonClick(0, true)" id="dogered" alt="red doge"></li>
+                <li id="dogeblue" onClick="simonClick(1, true)" alt="blue doge"></li>
+                <li onClick="simonClick(2, true)" id="dogegreen" alt="green doge"></li>
+                <li onClick="simonClick(3, true)" id="dogeyellow" alt="yellow doge"></li>
+                <li id="startSwitchPositioning"><div class="switch large">
+                    <input class="switch-input" id="startSwitch" type="checkbox" name="startSwitch" onClick="toggleGame()">
+                        <label class="switch-paddle" for="startSwitch">
+                            <span class="show-for-sr">Start Game</span>
+                            <span class="switch-active" aria-hidden="true">on</span>
+                            <span class="switch-inactive" aria-hidden="true">off</span>
+                        </label>
+                        </div></li>
+                <li onClick="setStrict()" id="dogestrict"></li>
+            </ul>
+            <center style="position:absolute;top:400px;left:10px;">Written and Coded by Eliot Glairon as part of <a href="https://www.freecodecamp.com/" target="_blank">freeCodeCamp</a>. <a href="https://www.linkedin.com/in/eliotglairon" target="_blank"><i class="fi-social-linkedin"></i></a><a href="https://github.com/eliotn"
+                target="_blank"><i class="fi-social-github"></i></a><a href="https://www.twitter.com/eliotglairon"><i class="fi-social-twitter"></i></a>
+            
+            </center>
+
+        </div>
+            </blockquote>
+    
+<script src="./js/eliotn-dogesays.js"></script>
+</body>
+</html>
