@@ -19,21 +19,21 @@ var MarkdownOutput = React.createClass({
 var MarkdownInput = React.createClass({
   displayName: "MarkdownInput",
   getInitialState: function() {
-    return {state: "HELLO\n=="};
+    return {state: "HELLO\n*[HELLO]: Hi Eliot"};
   },
   handleChange: function(event) {
     console.log("CHANGED!");
-    this.setState({value: event.target.value, state: event.target.value})
+    this.setState({state: this.refs.textarea.value})
   },
   markdownHTML: function() {
     return { __html:marked(this.state.state)}; 
   },
   render: function () {
     return (
-      React.createElement('div', {id:this.markdownHTML()}, 
-        React.createElement('textarea', {cols: "40",type: "text", value: this.state.state, onChange: this.handleChange, className: "markdownInput"}, null),
-        React.createElement('div', {dangerouslySetHTML:this.markdownHTML()}, null),
-	React.createElement('div', null, '')
+      React.createElement('div', {id:this.markdownHTML().__html}, 
+        React.createElement('textarea', {cols: "40",type: "text", value: this.state.state, onChange: this.handleChange, className: "markdownInput", ref:"textarea"}, null),
+	React.createElement('div', null, 'fuaiodfijdjfosdf'),
+        React.createElement('div', {dangerouslySetInnerHTML:this.markdownHTML()}, null),
       )
     )
   }
