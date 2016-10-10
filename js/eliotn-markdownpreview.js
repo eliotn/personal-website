@@ -31,9 +31,8 @@ var MarkdownInput = React.createClass({
   render: function () {
     return (
       React.createElement('div', {id:this.markdownHTML().__html}, 
-        React.createElement('textarea', {cols: "40",type: "text", value: this.state.state, onChange: this.handleChange, className: "markdownInput", ref:"textarea"}, null),
-	React.createElement('div', null, 'fuaiodfijdjfosdf'),
-        React.createElement('div', {dangerouslySetInnerHTML:this.markdownHTML()}, null),
+        React.createElement('textarea', {cols: "40", rows: "40", type: "text", value: this.state.state, onChange: this.handleChange, className: "markdownInput", ref:"textarea"}, null),
+        React.createElement('div', {dangerouslySetInnerHTML:this.markdownHTML()}, null)
       )
     )
   }
