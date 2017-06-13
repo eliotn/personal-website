@@ -84,7 +84,8 @@ function getChannel(channelname) {
     },
     success: function(data) {
     $("#debug").html($("#debug").html() + JSON.stringify(data));  $("#twitchstreamsoffline").html($("#twitchstreamsoffline").html() + "<blockquote class='offline-stream row row-centered'><h4 class='text-centered'>" + data["status"] + "</h4><a  href='https://www.twitch.tv/" + channelname + "/'  target='_blank'><img class='col-sm-4 imglogo img-responsive col-centered' src ='" + data["logo"] + "'><img class='col-sm-4 imgpreview img-responsive col-centered' src='" + ((data["video_banner"] === null)?"":data["video_banner"]) + "'></a></blockquote>");
-    }});
+    }}
+    );
 }
 function getStream(streamname) {
   var streamurl = "https://www.twitch.tv/" + streamname + "/"
@@ -123,11 +124,10 @@ var streamnames = [
                   //programming
 "programming",
     //gamers that are cool
-"trumpsc",
 "nl_kripp",
+"prepcoin_nl",
 "lifesaglitchtv",
-  //???
-  "loadingreadyrun",
+"wowhobbs",
   //joke but it can happen in the future ;P
 "twitchtvwillruinyourlife"
 
