@@ -237,8 +237,11 @@ function updateDisplay() {
 function setWeather(data) {
      $("#debug").text(JSON.stringify(data));
       //calculate Celcius and farenheight
-      cel = Math.round(data["main"]["temp"] - 273.15);
-      far = Math.round((data["main"]["temp"] * 1.8 - (273.15 * 1.8) + 32));
+      console.log(data)
+      if ("main" in data) {
+        cel = Math.round(data["main"]["temp"] - 273.15);
+        far = Math.round((data["main"]["temp"] * 1.8 - (273.15 * 1.8) + 32));
+      }
       placename = data["name"];
       placecountry = data["sys"]["country"];
       placeweather = data["weather"][0]["description"];
