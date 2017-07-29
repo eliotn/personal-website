@@ -1,15 +1,29 @@
-textarea {
- font-family: monospace;
- position: fixed;
- float: left;
- height: 90%;
- width: 30%;
-}
-#mycontent {
- left: 35%;
- height: 100%;
- width: 90%-60%;
- position: absolute;
- overflow: scroll;
- font-family: sans-serif;
+body {  
+  textarea {
+    font-family: monospace;
+    position: fixed;
+    float: left;
+    height: 100%;
+    width: 30%;
+  }
+  #mycontent {
+    left: 35%;
+    height: 100%;
+    width: 90%-30%;
+    position: absolute;
+    overflow: scroll;
+    font-family: sans-serif;
+    h1 {
+      color: purple;
+    }
+    em {
+      color: green;
+    }
+    table {
+      background: #dddddd;
+    }
+    strong {
+      color: red;
+    }
+  }
 }

@@ -1,16 +1,23 @@
-textarea {
+body textarea {
   font-family: monospace;
   position: fixed;
   float: left;
-  height: 90%;
+  height: 100%;
   width: 30%; }
-
-#mycontent {
+body #mycontent {
   left: 35%;
   height: 100%;
   width: 60%;
   position: absolute;
   overflow: scroll;
   font-family: sans-serif; }
+  body #mycontent h1 {
+    color: purple; }
+  body #mycontent em {
+    color: green; }
+  body #mycontent table {
+    background: #dddddd; }
+  body #mycontent strong {
+    color: red; }
 
 /*# sourceMappingURL=eliotn-markdownpreview.css.map */
