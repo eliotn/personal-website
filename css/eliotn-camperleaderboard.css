@@ -1,23 +1,26 @@
-body textarea {
-  font-family: monospace;
-  position: fixed;
-  float: left;
-  height: 100%;
-  width: 30%; }
-body #mycontent {
-  left: 35%;
-  height: 100%;
-  width: 60%;
-  position: absolute;
-  overflow: scroll;
-  font-family: sans-serif; }
-  body #mycontent h1 {
-    color: purple; }
-  body #mycontent em {
-    color: green; }
-  body #mycontent table {
-    background: #dddddd; }
-  body #mycontent strong {
-    color: red; }
+.public_fixedDataTableRow_main .public_fixedDataTableCell_main {
+  background-color: yellow; }
+
+body {
+  background-color: green;
+  background: green;
+  font-family: 'Ubuntu', sans-serif; }
+  body .outofdate {
+    color: red;
+    text-align: center; }
+  body .notoutofdate {
+    color: green;
+    text-align: center; }
+  body .align-right {
+    text-align: right;
+    align: right; }
+  body .align-center {
+    text-align: center; }
+  body #content {
+    font-family: 'Fontdiner Swanky', cursive; }
+  body h1 {
+    font-size: 2em; }
+  body h3 {
+    font-size: 1.17em; }
 
 /*# sourceMappingURL=eliotn-camperleaderboard.css.map */

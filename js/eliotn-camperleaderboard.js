@@ -5,12 +5,16 @@ const {Table, Column, Cell} = FixedDataTable;
 
 //thanks to https://github.com/facebook/fixed-data-table/blob/master/examples/ObjectDataExample.js
 //for a good example on how to use the api
+
+const RankingCell = function ({rowIndex, data, col, startRow, ...props}) {
+    return (<Cell {...props}>{rowIndex+1}</Cell>)
+}
+
 const TextCell = function ({rowIndex, data, col, startRow, ...props}) {
   return (<Cell {...props}>{data[rowIndex + startRow][col]}</Cell>);
 }
 
 const AvatarCell = function ({rowIndex, data, col, startRow, ...props}) {
-  console.log(startRow)
   return (<Cell {...props}><a href={"http://www.freecodecamp.com/" + data[rowIndex+startRow].username}><img src={data[rowIndex + startRow].img} width="25" height="25"/>{data[rowIndex+startRow].username}</a></Cell>);
 }
 
@@ -21,6 +25,7 @@ const DateCell = function ({rowIndex, data, col, startRow, ...props}) {
     var newdate = new Date(Date.parse(dateToParse));
     var difference = Math.floor((currentdate - newdate)/1000);
     var differencestring = "I don't know";
+    var classname="notoutofdate";
     if (difference < 60) {
         var s = Math.floor(difference);
         differencestring = s + " second" + ((s === 1)?"":"s") + " ago";
@@ -36,18 +41,11 @@ const DateCell = function ({rowIndex, data, col, startRow, ...props}) {
     else {
         var d = Math.floor(difference/(24*60*60));
         differencestring = d + " day" + ((d === 1)?"":"s") + " ago";
+        if (d >= 15) {
+            classname = "outofdate";
+        }
     }
-    return (<Cell {...props}>{differencestring}</Cell>)
-}
-
-var Row = React.createClass({
- render: function() {
-   return React.createElement('p', null, this.data); 
- }
-});
-
-function createFakeCamperData(index) {
-
+    return (<Cell {...props}><span className={classname}>{differencestring}</span></Cell>)
 }
 
 class CamperLeaderboard extends React.Component {
@@ -73,30 +71,37 @@ class CamperLeaderboard extends React.Component {
       <Table rowHeight={50} headerHeight={50} rowsCount={100} width={1000} height={500}
         {...this.props}>
         <Column
-            header={<Cell>Avatar</Cell>}
+            header={<Cell className='align-center'>#</Cell>}
+            cell={<RankingCell className='align-center' startRow={startRow} data={dataList} col="img"/>}
+            fixed={true}
+            startRow={100}
+            width={50}
+        />
+        <Column
+            header={<Cell className='align-center'>Avatar</Cell>}
             cell={<AvatarCell startRow={startRow} data={dataList} col="img"/>}
             fixed={true}
             startRow={100}
             width={200}
         />
         <Column
-            header={<Cell><a onClick={this.sortByAllTime.bind(this)}>All-Time Score</a></Cell>}
-            cell={<TextCell startRow={startRow} data={dataList} col="alltime" />}
+            header={<Cell className='align-center'><a onClick={this.sortByAllTime.bind(this)}>All-Time Score</a></Cell>}
+            cell={<TextCell className='align-center' startRow={startRow} data={dataList} col="alltime" />}
             fixed={true}
             startRow={100}
             width={200}
         />
         <Column
-            header={<Cell><a onClick={this.sortBy30Days.bind(this)}>Last 30 Days Score</a></Cell>}
-            cell={<TextCell startRow={startRow} data={dataList} col="recent" />}
+            header={<Cell className='align-center'><a className='align-center' onClick={this.sortBy30Days.bind(this)}>Last 30 Days Score</a></Cell>}
+            cell={<TextCell className='align-center' startRow={startRow} data={dataList} col="recent" />}
             fixed={true}
             startRow={100}
             width={200}
         />
         
         <Column
-            header={<Cell>Last Activity</Cell>}
-            cell={<DateCell startRow={startRow} data={dataList} col="lastUpdate"/>}
+            header={<Cell className='align-center'>Last Updated</Cell>}
+            cell={<DateCell className='align-center' startRow={startRow} data={dataList} col="lastUpdate" text-align="center"/>}
             fixed={true}
             startRow={100}
             width={200}
@@ -106,11 +111,10 @@ class CamperLeaderboard extends React.Component {
     )
   }
 }
+//sort by recent then all time
 $.get("https://fcctop100.herokuapp.com/api/fccusers/top/recent", function (result) {
-      console.log("RESULT1");
     $.get("https://fcctop100.herokuapp.com/api/fccusers/top/alltime", function (result2) {
           var all_results = result.concat(result2).map(JSON.stringify).map(JSON.parse);
-        console.log(all_results);
         var LeaderboardState = {dataList: all_results}
         ReactDOM.render(<CamperLeaderboard startRow={100} dataList={LeaderboardState}/>, document.getElementById('content'));
     });
