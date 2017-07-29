@@ -3,7 +3,7 @@ body {
   background-image: linear-gradient(
       rgba(147, 168, 172, 0.35), 
       rgba(147, 168, 172, 0.35)
-    ),  url("./images/sayagata-400px.png");
+    ),  url("/images/sayagata-400px.png");
 }
 .sticky-container {
   height: 59px;
@@ -57,16 +57,16 @@ ul.tabs {
       rgba(68, 52, 79, 0.35), 
       rgba(68, 52, 79, 0.35)
       
-    ), url("./images/sayagata-400px.png");
+    ), url("/images/sayagata-400px.png");
   }
   ul.tabs a:hover {
   background-image: linear-gradient(
       rgba(68, 52, 79, 0.55), 
       rgba(68, 52, 79, 0.55)
-    ), url("./images/sayagata-400px.png");
+    ), url("/images/sayagata-400px.png");
   }
   ul.tabs a:active{
-  background-image: url("./images/sayagata-400px.png");
+  background-image: url("/images/sayagata-400px.png");
   }
 
 ul.tabs li {
@@ -83,7 +83,7 @@ ul.tabs li {
   background-image: linear-gradient(
       rgba(147, 168, 172, 0.35), 
       rgba(147, 168, 172, 0.35)
-    ), url("./images/sayagata-400px.png");
+    ), url("/images/sayagata-400px.png");
 }
 .underline {
   border-bottom: 5px solid #e2b4bd;
