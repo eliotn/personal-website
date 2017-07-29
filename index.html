@@ -13,126 +13,10 @@ $(document).ready(function(){
 
 });
 </script>
-<style>/*possible color scheme: https://coolors.co/93a8ac-44344f-564d80-ffffff-e2b4bd*/
-body {
-  background-image: linear-gradient(
-      rgba(147, 168, 172, 0.35), 
-      rgba(147, 168, 172, 0.35)
-    ),  url("./images/sayagata-400px.png");
-}
-.sticky-container {
-  height: 59px;
-}
-.sticky {
-    width: 100%;
-  margin-top: 0em; top: 0px; bottom: auto; left: 0px;
-}
-.website-topbar, #websitemenu {
-  background: #44344F;
-  
-  color: #ffffff;
-}
-.website-topbar a:link {
-  color: #e2b4bd;
-}
-/*on hover effects*/
-.website-topbar a:hover {
-  background: #93A8AC;
-  color: #e2b4bd;
-}
-.top-bar-left {
-  background: #44344F;
-}
-.top-bar-title {
-  text-align: center !important;
-}
-.menu {
-  background: #44344F;
-}
-.website-topbar {
-  
-  
-}
-.sticky{
-    
-    
-    /*create margin from top bar*/
-}
-.content {
-  /*create margin from top bar*/
-  font-family: 'Ubuntu', sans-serif;
-  
-}
-
-/* center tabs on foundation - thanks http://stackoverflow.com/questions/24548990/align-foundation-5-tabs-in-the-middle-of-the-screen*/
-ul.tabs {
-  
-  text-align: center;
-  background-image: linear-gradient(
-      rgba(68, 52, 79, 0.35), 
-      rgba(68, 52, 79, 0.35)
-      
-    ), url("./images/sayagata-400px.png");
-  }
-  ul.tabs a:hover {
-  background-image: linear-gradient(
-      rgba(68, 52, 79, 0.55), 
-      rgba(68, 52, 79, 0.55)
-    ), url("./images/sayagata-400px.png");
-  }
-  ul.tabs a:active{
-  background-image: url("./images/sayagata-400px.png");
-  }
-
-ul.tabs li {
-  float: none !important;
-  display: inline-block;
-}
-
-.flex-video {
-  max-height: 340;
-  height: 340 !important;
-  padding-bottom: 0% !important;
-}
-.tabs-content {
-  background-image: linear-gradient(
-      rgba(147, 168, 172, 0.35), 
-      rgba(147, 168, 172, 0.35)
-    ), url("./images/sayagata-400px.png");
-}
-.underline {
-  border-bottom: 5px solid #e2b4bd;
-}
-.big-title {
-  /*overrides content if needed*/
-  font-family: 'Indie Flower', sans-serif;
-  text-align: center;
-  clip: rect(auto, auto, auto, auto);
-  color: #44344F;
-  /*thanks to  http://stackoverflow.com/questions/12557707/changing-underline-color*/
-  
-  /*text-decoration: underline;
-  -webkit-text-decoration-color: #e2b4bd;
-  -moz-text-decoration-color: #e2b4bd;  
-  text-decoration-color: #e2b4bd;*/
-}
-.thumbnail-text {
-  width: 150px;
-  height: 150px;
-  font-size:60px;
-}
-
-.social_media_icons {
-  font-size:58px;
-  text-align:center;
-}
-.no-js {
-  display:none;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="css/index.css">
   </head>
   <body><div data-sticky-container class="top-bar-container sticky-container">
-
+  <!-- foundation sticky bar -->
   <div class="sticky is-stuck" id="thetopbar" data-sticky data-options="anchor: page; marginTop: 0px; stickyOn: small;">
     <div class="website-topbar top-bar">
       <div class="top-bar-title">
@@ -168,7 +52,15 @@ ul.tabs li {
   <h1 id="projectstitle" class="big-title"><span class="underline">Portfolio</span></h1>
   <ul class="tabs" data-tabs id="allprojects">
     <li class="tabs-title">
-      <a href="#freecodecampprojects" aria-selected="true">
+      <a href="#panelcataworxprojects" aria-selected="true">
+        <div class="thumbnail">
+          <img src="./images/cataworx.png" width=150 height=150>
+        </div>
+      </a>
+    </li>
+    <li class="tabs-title">
+      
+      <a href="#panelfreecodecampprojects">
         <div class="thumbnail">
           <img src="https://raw.githubusercontent.com/FreeCodeCamp/assets/master/assets/logos/fcc_puck600.png" width=150 height=150>
         </div>
@@ -196,13 +88,27 @@ ul.tabs li {
 
 
   <div class="tabs-content" data-tabs-content="allprojects">
-    <div class="tabs-panel" id="freecodecampprojects">
+    <div class="tabs-panel" id="panelcataworxprojects">
+      Currently I am working on an api for cataworx that handles the quote process for telecommunications companies.
+      Visit <a href="http://www.cataworx.com/">http://www.cataworx.com/</a> for more information.
+    </div>
+    <div class="tabs-panel" id="panelfreecodecampprojects">
       <h1 class="big-title" id="backend-projects"><span class="underline">Back-End Development Projects</span></h1>
         For the following projects, it may take a few seconds to load the web services, please be patient:
         <ul>
+        <li><a href="https://interactive-twitch.herokuapp.com/">Interactive Twitch</a> - Allows twitch streamers to create polls that other users
+        can vote on through the website or twitch chat.</li>
+        <li><a href="https://ejgurl.herokuapp.com/">Url Shortener</a> - Simple url shortener service with a UI demo.</li>
+
 	  <li><a href="https://eliotn-fcc-backend2.herokuapp.com">Header Microservice</a> - Grabs IP address and OS information as JSON.</li>
           <li><a href="https://eliotn-fcc-backend1.herokuapp.com">Timestamp Microservice</a> - Takes a date or unix time (seconds since January 1st, 1970) as input and returns JSON containing both.</li> 
+          <li><a href="https://eliotn-fcc-backend4.herokuapp.com">File Size Microservice</a> - You can upload files to find their size.</li>
         </ul>
+       <h1 class="big-title" id="data-visualization-projects"><span class="underline">Data Visualization Projects</span></h1>
+       <ul>
+         <li><a href="https://codeday-roguelike.herokuapp.com/">CodeDay Roguelike</a> - A simple roguelike created as part of CodeDay.</li>
+         <li><a href="markdownpreview.html">Markdown previewer</a> - A simple previewer of the markdown format, used most famously in Readme.MD</li>
+       </ul>
       <h1 class="big-title" id="frontend-projects"><span class="underline">Front-End Development Projects</span></h1>
       <div class="media-object">
         <div class="media-object-section">
@@ -278,11 +184,11 @@ ul.tabs li {
       <div class="media-object">
         <div class="media-object-section">
           <div class="thumbnail">
-            <a href="./rogueweather.html" target="_blank"><img src="./images/RogueWeather.png" width=350 height=150></a>
+            <a href="#"><img src="./images/RogueWeather.png" width=350 height=150></a>
           </div>
         </div>
 <div class="media-object-section">
-  <p>Rogue Weather: Displays the weather for random places or your hometown, in roguelike style. Includes a clickable grid for exploration.</p>
+  <p>Rogue Weather: Displays the weather for random places or your hometown, in roguelike style. Includes a clickable grid for exploration.  Currently under construction due to unanticipated api behavior.</p>
 </div>
 </div>
       <div class="media-object">

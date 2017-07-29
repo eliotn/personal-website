@@ -1,0 +1,116 @@
+/*possible color scheme: https://coolors.co/93a8ac-44344f-564d80-ffffff-e2b4bd*/
+body {
+  background-image: linear-gradient(
+      rgba(147, 168, 172, 0.35), 
+      rgba(147, 168, 172, 0.35)
+    ),  url("./images/sayagata-400px.png");
+}
+.sticky-container {
+  height: 59px;
+}
+.sticky {
+    width: 100%;
+  margin-top: 0em; top: 0px; bottom: auto; left: 0px;
+}
+.website-topbar, #websitemenu {
+  background: #44344F;
+  
+  color: #ffffff;
+}
+.website-topbar a:link {
+  color: #e2b4bd;
+}
+/*on hover effects*/
+.website-topbar a:hover {
+  background: #93A8AC;
+  color: #e2b4bd;
+}
+.top-bar-left {
+  background: #44344F;
+}
+.top-bar-title {
+  text-align: center !important;
+}
+.menu {
+  background: #44344F;
+}
+.website-topbar {
+  
+  
+}
+.sticky{
+    
+    
+    /*create margin from top bar*/
+}
+.content {
+  /*create margin from top bar*/
+  font-family: 'Ubuntu', sans-serif;
+  
+}
+
+/* center tabs on foundation - thanks http://stackoverflow.com/questions/24548990/align-foundation-5-tabs-in-the-middle-of-the-screen*/
+ul.tabs {
+  
+  text-align: center;
+  background-image: linear-gradient(
+      rgba(68, 52, 79, 0.35), 
+      rgba(68, 52, 79, 0.35)
+      
+    ), url("./images/sayagata-400px.png");
+  }
+  ul.tabs a:hover {
+  background-image: linear-gradient(
+      rgba(68, 52, 79, 0.55), 
+      rgba(68, 52, 79, 0.55)
+    ), url("./images/sayagata-400px.png");
+  }
+  ul.tabs a:active{
+  background-image: url("./images/sayagata-400px.png");
+  }
+
+ul.tabs li {
+  float: none !important;
+  display: inline-block;
+}
+
+.flex-video {
+  max-height: 340;
+  height: 340 !important;
+  padding-bottom: 0% !important;
+}
+.tabs-content {
+  background-image: linear-gradient(
+      rgba(147, 168, 172, 0.35), 
+      rgba(147, 168, 172, 0.35)
+    ), url("./images/sayagata-400px.png");
+}
+.underline {
+  border-bottom: 5px solid #e2b4bd;
+}
+.big-title {
+  /*overrides content if needed*/
+  font-family: 'Indie Flower', sans-serif;
+  text-align: center;
+  clip: rect(auto, auto, auto, auto);
+  color: #44344F;
+  /*thanks to  http://stackoverflow.com/questions/12557707/changing-underline-color*/
+  
+  /*text-decoration: underline;
+  -webkit-text-decoration-color: #e2b4bd;
+  -moz-text-decoration-color: #e2b4bd;  
+  text-decoration-color: #e2b4bd;*/
+}
+.thumbnail-text {
+  width: 150px;
+  height: 150px;
+  font-size:60px;
+}
+
+.social_media_icons {
+  font-size:58px;
+  text-align:center;
+}
+.no-js {
+  display:none;
+}
